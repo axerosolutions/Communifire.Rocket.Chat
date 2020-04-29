@@ -99,7 +99,14 @@ Template.videoFlexTab.onRendered(function() {
 			}
 
 			const domain = settings.get('Jitsi_Domain');
-			const jitsiRoom = settings.get('Jitsi_URL_Room_Prefix') + settings.get('uniqueID') + rid;
+			let rname;
+			if (settings.get('Jitsi_URL_Room_Hash')) {
+				rname = settings.get('uniqueID') + rid;
+			} else {
+				const room = Rooms.findOne({ _id: rid });
+				rname = encodeURIComponent(room.t === 'd' ? room.usernames.join(' x ') : room.name);
+			}
+			const jitsiRoom = settings.get('Jitsi_URL_Room_Prefix') + rname;
 			const noSsl = !settings.get('Jitsi_SSL');
 			const isEnabledTokenAuth = settings.get('Jitsi_Enabled_TokenAuth');
 
