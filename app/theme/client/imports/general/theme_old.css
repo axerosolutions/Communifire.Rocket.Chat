@@ -443,15 +443,11 @@ i.status-online {
 	color: var(--status-online);
 }
 
-.status-bg-online {
-	background-color: var(--status-online);
-}
-
 .account-box .status-online .thumb::after,
 .account-box .status.online::after,
 .popup-user-status-online,
 .status-online::after {
-	border-color: var(--status-online-darken-10);
+	border-color: transparent;
 	background-color: var(--status-online);
 }
 
@@ -464,16 +460,12 @@ i.status-away {
 	color: var(--status-away);
 }
 
-.status-bg-away {
-	background-color: var(--status-away);
-}
-
 .account-box .status-away .thumb::after,
 .account-box .status.away::after,
 .popup-user-status-away,
 .status-away::after,
 .status-pending::after {
-	border-color: var(--status-away-darken-10);
+	border-color: transparent;
 	background-color: var(--status-away);
 }
 
@@ -481,30 +473,22 @@ i.status-busy {
 	color: var(--status-busy);
 }
 
-.status-bg-busy {
-	background-color: var(--status-busy);
-}
-
 .account-box .status-busy .thumb::after,
 .account-box .status.busy::after,
 .popup-user-status-busy,
 .status-busy::after {
-	border-color: var(--status-busy-darken-10);
+	border-color: transparent;
 	background-color: var(--status-busy);
 }
 
 i.status-offline {
-	color: var(--status-offline);
-}
-
-.status-bg-offline {
-	background-color: var(--status-offline);
+	color: var(--status-invisible);
 }
 
 .popup-user-status-offline,
 .status-offline::after {
-	border-color: var(--status-offline-darken-10);
-	background-color: var(--status-offline);
+	border-color: transparent;
+	background-color: var(--status-invisible);
 }
 
 .alert-warning {

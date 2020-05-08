@@ -49,10 +49,6 @@
 	--link-font-color: var(--primary-action-color);
 	--info-font-color: var(--secondary-font-color);
 	--custom-scrollbar-color: var(--transparent-darker);
-	--status-online: var(--success-color);
-	--status-away: var(--pending-color);
-	--status-busy: var(--error-color);
-	--status-offline: var(--transparent-darker);
 
 	/* #endregion */
 
