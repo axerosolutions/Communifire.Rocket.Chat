@@ -1,6 +1,6 @@
-export function useExampleData({ aditionalFields, url }) {
+export function useExampleData({ additionalFields, url }) {
 	const exampleData = {
-		...aditionalFields && aditionalFields,
+		...additionalFields && additionalFields,
 		text: 'Example message',
 		attachments: [{
 			title: 'Rocket.Chat',

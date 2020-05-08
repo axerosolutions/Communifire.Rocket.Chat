@@ -78,7 +78,7 @@ function EditIncomingWebhook({ data, setData, onChange, ...props }) {
 	const script = newData.script ?? data.script;
 
 	const [exampleData, curlData] = useExampleData({
-		aditionalFields: {
+		additionalFields: {
 			...alias && { alias },
 			...emoji && { emoji },
 			...avatarUrl && { avatar: avatarUrl },
