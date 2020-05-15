@@ -36,7 +36,7 @@ Meteor.logout = function(...args) {
 			}
 
 			if (samlService.logoutBehaviour === logoutBehaviour.ONLY_RC) {
-				console.info('SAML session not terminated, only the Rocket.Chat session is going to be killed');
+				console.info('SAML session not terminated, only the Communifire session is going to be killed');
 			}
 		}
 	}

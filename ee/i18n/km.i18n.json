@@ -15,7 +15,7 @@
   "Invalid_Department": "នាយកដ្ឋានមិនត្រឹមត្រូវ",
   "LDAP_Default_Role_To_User": "តួនាទីលំនាំដើមសម្រាប់អ្នកប្រើប្រាស់",
   "LDAP_Default_Role_To_User_Description": "តួនាទី RC លំនាំដើមដែលត្រូវអនុវត្តចំពោះអ្នកប្រើប្រាស់ប្រសិនបើអ្នកប្រើប្រាស់មានតួនាទី LDAP មួយចំនួនដែលមិនត្រូវបានគូស។",
-  "LDAP_Enable_LDAP_Roles_To_RC_Roles": "បើកដំណើរការគូសផែនទីពី LDAP ទៅ Rocket.Chat",
+  "LDAP_Enable_LDAP_Roles_To_RC_Roles": "បើកដំណើរការគូសផែនទីពី LDAP ទៅ Communifire",
   "LDAP_Query_To_Get_User_Groups": "សំណួរ LDAP ដើម្បីទទួលបានក្រុមអ្នកប្រើប្រាស់",
   "LDAP_Query_To_Get_User_Groups_Description": "សំណួរអិលឌីភីដើម្បីទទួលបានក្រុមអិល។ ឌី។ ភី។ ដែលអ្នកប្រើជាសមាជិក។",
   "LDAP_Roles_To_Rocket_Chat_Roles": "ការគូសផែនទីពីតួនាទីពីអិល។ ឌី។ អេ។ ទៅរ៉ក់ឌឺ។",

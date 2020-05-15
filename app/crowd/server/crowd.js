@@ -288,7 +288,7 @@ Accounts.registerLoginHandler('crowd', function(loginRequest) {
 		}
 
 		if (!user) {
-			logger.debug(`User ${ loginRequest.username } is not allowd to access Rocket.Chat`);
+			logger.debug(`User ${ loginRequest.username } is not allowd to access Communifire`);
 			return new Meteor.Error('not-authorized', 'User is not authorized by crowd');
 		}
 

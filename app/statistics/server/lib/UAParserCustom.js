@@ -124,7 +124,7 @@ export const UAParserDesktop = {
 		const ua = new UAParser(uaString);
 		const uaParsed = ua.getResult();
 
-		const [, name, version] = uaString.match(/(Rocket\.Chat)\/(\d+(\.\d+)+)/) || [];
+		const [, name, version] = uaString.match(/(Communifire)\/(\d+(\.\d+)+)/) || [];
 
 		return {
 			device: {

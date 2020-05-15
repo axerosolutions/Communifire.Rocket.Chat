@@ -27,7 +27,7 @@ Meteor.startup(function() {
 
 	return Meteor.setTimeout(function() {
 		let msg = [
-			`Rocket.Chat Version: ${ Info.version }`,
+			`Communifire Version: ${ Info.version }`,
 			`     NodeJS Version: ${ process.versions.node } - ${ process.arch }`,
 			`    MongoDB Version: ${ mongoVersion }`,
 			`     MongoDB Engine: ${ mongoStorageEngine }`,

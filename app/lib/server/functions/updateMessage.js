@@ -16,7 +16,7 @@ export const updateMessage = function(message, user, originalMessage) {
 
 		const prevent = Promise.await(Apps.getBridges().getListenerBridge().messageEvent('IPreMessageUpdatedPrevent', appMessage));
 		if (prevent) {
-			throw new Meteor.Error('error-app-prevented-updating', 'A Rocket.Chat App prevented the message updating.');
+			throw new Meteor.Error('error-app-prevented-updating', 'A Communifire App prevented the message updating.');
 		}
 
 		let result;

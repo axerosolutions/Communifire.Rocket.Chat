@@ -1106,7 +1106,7 @@ export default class SlackAdapter {
 	}
 
 	copyChannelInfo(rid, channelMap) {
-		logger.slack.debug('Copying users from Slack channel to Rocket.Chat', channelMap.id, rid);
+		logger.slack.debug('Copying users from Slack channel to Communifire', channelMap.id, rid);
 		const channel = this.slackAPI.getRoomInfo(channelMap.id);
 		if (channel) {
 			const members = this.slackAPI.getMembers(channelMap.id);
@@ -1184,13 +1184,13 @@ export default class SlackAdapter {
 			if (this.getSlackChannel(rid)) {
 				this.copyChannelInfo(rid, this.getSlackChannel(rid));
 
-				logger.slack.debug('Importing messages from Slack to Rocket.Chat', this.getSlackChannel(rid), rid);
+				logger.slack.debug('Importing messages from Slack to Communifire', this.getSlackChannel(rid), rid);
 				let results = this.importFromHistory(this.getSlackChannel(rid).family, { channel: this.getSlackChannel(rid).id, oldest: 1 });
 				while (results && results.has_more) {
 					results = this.importFromHistory(this.getSlackChannel(rid).family, { channel: this.getSlackChannel(rid).id, oldest: results.ts });
 				}
 
-				logger.slack.debug('Pinning Slack channel messages to Rocket.Chat', this.getSlackChannel(rid), rid);
+				logger.slack.debug('Pinning Slack channel messages to Communifire', this.getSlackChannel(rid), rid);
 				this.copyPins(rid, this.getSlackChannel(rid));
 
 				return callback();
@@ -1203,7 +1203,7 @@ export default class SlackAdapter {
 			logger.slack.error('Could not find Slack room with specified name', rocketchat_room.name);
 			return callback(new Meteor.Error('error-slack-room-not-found', 'Could not find Slack room with specified name'));
 		}
-		logger.slack.error('Could not find Rocket.Chat room with specified id', rid);
+		logger.slack.error('Could not find Communifire room with specified id', rid);
 		return callback(new Meteor.Error('error-invalid-room', 'Invalid room'));
 	}
 }

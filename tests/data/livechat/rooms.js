@@ -21,7 +21,7 @@ export const createVisitor = () => new Promise((resolve) => {
 						email: 'visitor@rocket.chat',
 						token: 'iNKE8a6k6cjbqWhWd',
 						phone: '55 51 5555-5555',
-						customFields: [{ key: 'address', value: 'Rocket.Chat street', overwrite: true }],
+						customFields: [{ key: 'address', value: 'Communifire street', overwrite: true }],
 					},
 				})
 				.end((err, res) => { resolve(res.body.visitor); });

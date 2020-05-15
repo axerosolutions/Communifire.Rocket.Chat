@@ -957,7 +957,7 @@ export class HipChatEnterpriseImporter extends Base {
 
 			const user = this.getRocketUserFromUserId(hipchatUserId);
 			if (!user) {
-				this.logger.error(`User ${ hipchatUserId } not found on Rocket.Chat database.`);
+				this.logger.error(`User ${ hipchatUserId } not found on Communifire database.`);
 				return;
 			}
 

@@ -117,7 +117,7 @@ smarsh.generateEml = () => {
 
 				smarsh.sendEmail({
 					body: result,
-					subject: `Rocket.Chat, ${ data.users.length } Users, ${ data.msgs } Messages, ${ data.files.length } Files, ${ data.time } Minutes, in ${ data.room }`,
+					subject: `Communifire, ${ data.users.length } Users, ${ data.msgs } Messages, ${ data.files.length } Files, ${ data.time } Minutes, in ${ data.room }`,
 					files: data.files,
 				});
 			}

@@ -252,7 +252,7 @@
   "Apps": "აპლიკაციები",
   "Apps_Engine_Version": "აპლიკაციების ძრავის ვერსია",
   "Apps_Framework_Development_Mode": "დეველოპერის რეჟიმის ჩართვა",
-  "Apps_Framework_Development_Mode_Description": "დეველოპერის რეჟიმში შესაძლებელია იმ აპლიკაციების დაყენება, რომლებიც Rocket.Chat-ის მარკეტში არ არის გამოქვეყნებული.",
+  "Apps_Framework_Development_Mode_Description": "დეველოპერის რეჟიმში შესაძლებელია იმ აპლიკაციების დაყენება, რომლებიც Communifire-ის მარკეტში არ არის გამოქვეყნებული.",
   "Apps_Framework_enabled": "აპლიკაციების ფრეიმვორკის ჩართვა",
   "Apps_Marketplace_Deactivate_App_Prompt": "ნამდვილად გსურთ ამ აპლიკაციის გამორთვა?",
   "Apps_Marketplace_Modify_App_Subscription": "ხელმოწერის შეცვლა",

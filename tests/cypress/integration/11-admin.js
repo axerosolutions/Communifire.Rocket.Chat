@@ -26,8 +26,8 @@ describe('[Administration]', () => {
 			before(() => {
 				admin.infoLink.click();
 			});
-			it('the first title should be Rocket.Chat', () => {
-				admin.infoRocketChatTableTitle.should('contain', 'Rocket.Chat');
+			it('the first title should be Communifire', () => {
+				admin.infoRocketChatTableTitle.should('contain', 'Communifire');
 			});
 
 			it('it should show the rocket chat table', () => {

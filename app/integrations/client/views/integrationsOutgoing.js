@@ -128,9 +128,9 @@ Template.integrationsOutgoing.helpers({
 			icon_url: record.avatar,
 			text: 'Response text',
 			attachments: [{
-				title: 'Rocket.Chat',
+				title: 'Communifire',
 				title_link: 'https://rocket.chat',
-				text: 'Rocket.Chat, the best open source chat',
+				text: 'Communifire, the best open source chat',
 				image_url: '/images/integration-attachment-example.png',
 				color: '#764FA5',
 			}],

@@ -65,7 +65,7 @@ export const createRoom = function(type, name, owner, members = [], readOnly, ex
 	if (Apps && Apps.isLoaded()) {
 		const prevent = Promise.await(Apps.getBridges().getListenerBridge().roomEvent('IPreRoomCreatePrevent', room));
 		if (prevent) {
-			throw new Meteor.Error('error-app-prevented-creation', 'A Rocket.Chat App prevented the room creation.');
+			throw new Meteor.Error('error-app-prevented-creation', 'A Communifire App prevented the room creation.');
 		}
 
 		let result;

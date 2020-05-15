@@ -176,11 +176,11 @@ Meteor.startup(function() {
 			console.log(`Password: ${ adminUser._id }`.green);
 
 			if (Users.findOneByEmailAddress(adminUser.emails[0].address)) {
-				throw new Meteor.Error(`Email ${ adminUser.emails[0].address } already exists`, 'Rocket.Chat can\'t run in test mode');
+				throw new Meteor.Error(`Email ${ adminUser.emails[0].address } already exists`, 'Communifire can\'t run in test mode');
 			}
 
 			if (!checkUsernameAvailability(adminUser.username)) {
-				throw new Meteor.Error(`Username ${ adminUser.username } already exists`, 'Rocket.Chat can\'t run in test mode');
+				throw new Meteor.Error(`Username ${ adminUser.username } already exists`, 'Communifire can\'t run in test mode');
 			}
 
 			Users.create(adminUser);

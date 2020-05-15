@@ -79,7 +79,7 @@ Meteor.startup(function() {
 				public: true,
 			});
 
-			this.add('Jitsi_URL_Room_Prefix', 'RocketChat', {
+			this.add('Jitsi_URL_Room_Prefix', 'Communifire', {
 				type: 'string',
 				enableQuery: {
 					_id: 'Jitsi_Enabled',

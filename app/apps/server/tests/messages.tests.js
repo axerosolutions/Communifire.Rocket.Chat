@@ -52,7 +52,7 @@ describe('The AppMessagesConverter instance', function() {
 	const createdAt = new Date('2019-03-30T01:22:08.389Z');
 	const updatedAt = new Date('2019-03-30T01:22:08.412Z');
 
-	describe('when converting a message from Rocket.Chat to the Engine schema', function() {
+	describe('when converting a message from Communifire to the Engine schema', function() {
 		it('should return `undefined` when `msgObj` is falsy', function() {
 			const appMessage = messagesConverter.convertMessage(undefined);
 
@@ -106,7 +106,7 @@ describe('The AppMessagesConverter instance', function() {
 				.which.has.property('t', 'uj');
 		});
 
-		it('should return basic sender info when it\'s not a Rocket.Chat user (e.g. Livechat Guest)', function() {
+		it('should return basic sender info when it\'s not a Communifire user (e.g. Livechat Guest)', function() {
 			const appMessage = messagesConverter.convertMessage(messagesMock.findOneById('LivechatGuestMessageMock'));
 
 			expect(appMessage).to.have.property('sender').which.includes({
@@ -117,7 +117,7 @@ describe('The AppMessagesConverter instance', function() {
 		});
 	});
 
-	describe('when converting a message from the Engine schema back to Rocket.Chat', function() {
+	describe('when converting a message from the Engine schema back to Communifire', function() {
 		it('should return `undefined` when `message` is falsy', function() {
 			const rocketchatMessage = messagesConverter.convertAppMessage(undefined);
 
