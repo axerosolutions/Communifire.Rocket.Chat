@@ -8,6 +8,7 @@ import { CachedChatSubscription } from '../../app/models';
 import { fireGlobalEvent, readMessage, Layout } from '../../app/ui-utils';
 import { getUserPreference } from '../../app/utils';
 import { Notifications } from '../../app/notifications';
+import { CustomSounds } from '../../app/custom-sounds/client/lib/CustomSounds';
 
 // Show notifications and play a sound for new messages.
 // We trust the server to only send notifications for interesting messages, e.g. direct messages or
@@ -27,6 +28,22 @@ function notifyNewRoom(sub) {
 Meteor.startup(function() {
 	Tracker.autorun(function() {
 		if (Meteor.userId()) {
+			Notifications.onUser('jitsi_ring_start', function() {
+				Session.set('JitsiRinging', true);
+				CustomSounds.play('ring', {
+					volume: Number((100 / 100).toPrecision(2)),
+					loop: true,
+				});
+			});
+
+			Notifications.onUser('jitsi_ring_stop', function() {
+				Session.set('JitsiRinging', false);
+				CustomSounds.play('ring', {
+					volume: 0,
+					loop: false,
+				});
+			});
+
 			Notifications.onUser('notification', function(notification) {
 				let openedRoomId = undefined;
 				if (['channel', 'group', 'direct'].includes(FlowRouter.getRouteName())) {

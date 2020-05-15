@@ -14,6 +14,7 @@ actionLinks.register('joinJitsiCall', function(message, params, instance) {
 		const jitsiTimeout = new Date((room && room.jitsiTimeout) || currentTime).getTime();
 
 		if (jitsiTimeout > currentTime) {
+			Session.set('JitsiAnswering', true);
 			instance.tabBar.open('video');
 		} else {
 			toastr.info(TAPi18n.__('Call Already Ended', ''));

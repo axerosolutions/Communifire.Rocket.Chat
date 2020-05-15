@@ -13,6 +13,7 @@ class CustomSoundsClass {
 		this.add({ _id: 'droplet', name: 'Droplet', extension: 'mp3', src: 'sounds/droplet.mp3' });
 		this.add({ _id: 'highbell', name: 'Highbell', extension: 'mp3', src: 'sounds/highbell.mp3' });
 		this.add({ _id: 'seasons', name: 'Seasons', extension: 'mp3', src: 'sounds/seasons.mp3' });
+		this.add({ _id: 'ring', name: 'Ring', extension: 'mp3', src: 'sounds/ring.mp3' });
 	}
 
 	add(sound) {
