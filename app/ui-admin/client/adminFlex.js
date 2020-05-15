@@ -26,6 +26,40 @@ const label = function() {
 	return TAPi18n.__(this.i18nLabel || this._id);
 };
 
+const optout = new Set([
+	'Analytics',
+	'AtlassianCrowd',
+	'Blockstack',
+	'Bots',
+	'CAS',
+	'EmojiCustomFilesystem',
+	'CustomSoundsFilesystem',
+	'Discussion',
+	'Email',
+	'Enterprise',
+	'Federation',
+	'IRC_Federation',
+	'LDAP',
+	'LiveStream & Broadcasting',
+	'Meta',
+	'Omnichannel',
+	'OTR',
+	'Push',
+	'Rate Limiter',
+	'Retention Policy',
+	'SAML',
+	'Search',
+	'Setup_Wizard',
+	'SlackBridge',
+	'Smarsh',
+	'SMS',
+	'Threads',
+	'Troubleshoot',
+	'UserDataDownload',
+	'Webdav Integration',
+	'WebRTC',
+]);
+
 Template.adminFlex.helpers({
 	hasSettingPermission() {
 		return hasAtLeastOnePermission(['view-privileged-setting', 'edit-privileged-setting', 'manage-selected-settings']);
@@ -41,6 +75,9 @@ Template.adminFlex.helpers({
 			const filterRegex = new RegExp(s.escapeRegExp(filter), 'i');
 			const records = settings.collectionPrivate.find().fetch();
 			records.forEach(function(record) {
+				if (optout.has(record._id) || optout.has(record.group)) {
+					return;
+				}
 				if (filterRegex.test(TAPi18n.__(record.i18nLabel || record._id))) {
 					groups.push(record.group || record._id);
 				}
@@ -58,6 +95,8 @@ Template.adminFlex.helpers({
 		return settings.collectionPrivate.find(query).fetch().map(function(el) {
 			el.label = label.apply(el);
 			return el;
+		}).filter(function(a) {
+			return !optout.has(a._id);
 		}).sort(function(a, b) {
 			if (a.label.toLowerCase() >= b.label.toLowerCase()) {
 				return 1;

@@ -10,8 +10,10 @@
 			<ul class="rooms-list__list">
 				{{> sidebarItem menuItem "Info" "info-circled" "admin-info" "" }}
 
+			    {{#if false}}
 				{{#if hasPermission 'run-import'}}
 					{{> sidebarItem menuItem "Import" "import" "admin-import" "" }}
+				{{/if}}
 				{{/if}}
 
 				{{#if hasPermission 'view-room-administration'}}

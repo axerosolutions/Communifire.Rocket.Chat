@@ -14,6 +14,8 @@ Meteor.startup(() => {
 		});
 	});
 
+	settings.updateById('Discussion_enabled', false);
+
 	settings.add('Accounts_Default_User_Preferences_sidebarShowDiscussion', true, {
 		group: 'Accounts',
 		section: 'Accounts_Default_User_Preferences',
