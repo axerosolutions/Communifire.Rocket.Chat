@@ -75,18 +75,18 @@ Template.videoFlexTab.onRendered(function() {
 		TabBar.updateButton('video', { class: 'red' });
 	};
 
-	modal.open({
-		title: t('Video_Conference'),
-		text: t('Start_video_call'),
-		type: 'warning',
-		showCancelButton: true,
-		confirmButtonText: t('Yes'),
-		cancelButtonText: t('Cancel'),
-		html: false,
-	}, (dismiss) => {
-		if (!dismiss) {
-			return closePanel();
-		}
+	// modal.open({
+	//	title: t('Video_Conference'),
+	//	text: t('Start_video_call'),
+	//	type: 'warning',
+	//	showCancelButton: true,
+	//	confirmButtonText: t('Yes'),
+	//	cancelButtonText: t('Cancel'),
+	//	html: false,
+	// }, (dismiss) => {
+	//	if (!dismiss) {
+	//		return closePanel();
+	//	}
 		this.intervalHandler = null;
 		this.autorun(async () => {
 			if (!settings.get('Jitsi_Enabled')) {
@@ -172,5 +172,5 @@ Template.videoFlexTab.onRendered(function() {
 				this.api && this.api.executeCommand('displayName', [name]);
 			}
 		});
-	});
+	// });
 });
