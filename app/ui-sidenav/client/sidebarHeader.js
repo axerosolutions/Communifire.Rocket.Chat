@@ -308,6 +308,7 @@ Template.sidebarHeader.events({
 							},
 							{
 								items: [
+									/*
 									{
 										icon: 'user',
 										name: t('My_Account'),
@@ -318,6 +319,22 @@ Template.sidebarHeader.events({
 											SideNav.openFlex();
 											FlowRouter.go('account');
 											popover.close();
+										},
+									},
+									*/
+									{
+										icon: 'user',
+										name: t('Community'),
+										type: 'open',
+										id: 'community',
+										action: () => {
+											if (settings.get('Community_Url')) {
+											const newwindow = window.open(settings.get('Community_Url'));
+											if (newwindow.focus) {
+												newwindow.focus();
+											}
+											popover.close();
+											}
 										},
 									},
 									{

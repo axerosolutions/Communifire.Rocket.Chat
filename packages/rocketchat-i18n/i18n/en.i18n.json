@@ -3095,6 +3095,8 @@
   "Site_Name": "Site Name",
   "Site_Url": "Site URL",
   "Site_Url_Description": "Example: https://chat.domain.com/",
+  "Community_Url": "Community URL",
+  "Community_Url_Description": "Example: https://www.domain.com/",
   "Size": "Size",
   "Skip": "Skip",
   "Slack_Users": "Slack's Users CSV",
