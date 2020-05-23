@@ -51,6 +51,8 @@
 							{{/with}}
 						</div>
 
+						{{#if false}}
+
 						{{#if hasBio}}
 							<div class="rc-user-info-details">
 								{{ bio }}
@@ -118,6 +120,12 @@
 								{{#if servicesMeteor.id}} <p class="secondary-font-color"><i class="icon-meteor"></i>{{servicesMeteor.username}}</p> {{/if}}
 								{{#if services.twitter.id}} <p class="secondary-font-color"><i class="icon-twitter"></i><a href="https://twitter.com/{{services.twitter.screenName}}" target="_blank">{{services.twitter.screenName}}</a></p> {{/if}}
 								{{#if services.wordpress.id}} <p class="secondary-font-color"><i class="icon-wordpress"></i>{{services.wordpress.user_login}}</p> {{/if}}
+							</div>
+						</div>
+						{{/if}}
+						<div class="rc-user-info-details">
+							<div class="rc-user-info-details__item">
+								<a href="{{profileURL}}" class="rc-user-info-details__info" target="_blank">{{_ "View Profile"}}</a>
 							</div>
 						</div>
 					</div>

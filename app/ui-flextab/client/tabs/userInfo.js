@@ -207,6 +207,10 @@ Template.userInfo.helpers({
 		const roles = _.union(userRoles.roles || [], roomRoles.roles || []);
 		return roles.length && Roles.find({ _id: { $in: roles }, description: { $exists: 1 } }, { fields: { description: 1 } });
 	},
+	profileURL() {
+		const user = Template.instance().user.get();
+		return settings.get('Community_Url') + (user ? '/people/' + user.username : '');
+	},
 
 	shouldDisplayReason() {
 		const user = Template.instance().user.get();
