@@ -209,7 +209,13 @@ Template.userInfo.helpers({
 	},
 	profileURL() {
 		const user = Template.instance().user.get();
-		return settings.get('Community_Url') + (user ? '/people/' + user.username : '');
+		let url;
+		if (user) {
+			url = `${ settings.get('Community_Url') }/people/${ user.username }`;
+		} else {
+			url = settings.get('Community_Url');
+		}
+		return url;
 	},
 
 	shouldDisplayReason() {

@@ -2,10 +2,12 @@ import { Meteor } from 'meteor/meteor';
 import { Tracker } from 'meteor/tracker';
 import { FlowRouter } from 'meteor/kadira:flow-router';
 import { Session } from 'meteor/session';
+import toastr from 'toastr';
 
+import { settings } from '../../app/settings';
 import { KonchatNotification } from '../../app/ui';
-import { CachedChatSubscription } from '../../app/models';
-import { fireGlobalEvent, readMessage, Layout } from '../../app/ui-utils';
+import { CachedChatSubscription, Rooms, Users } from '../../app/models';
+import { fireGlobalEvent, readMessage, Layout, modal, t } from '../../app/ui-utils';
 import { getUserPreference } from '../../app/utils';
 import { Notifications } from '../../app/notifications';
 import { CustomSounds } from '../../app/custom-sounds/client/lib/CustomSounds';
@@ -28,20 +30,87 @@ function notifyNewRoom(sub) {
 Meteor.startup(function() {
 	Tracker.autorun(function() {
 		if (Meteor.userId()) {
-			Notifications.onUser('jitsi_ring_start', function() {
+			Notifications.onUser('jitsi_ring_start', function(rid, fromUser) {
 				Session.set('JitsiRinging', true);
-				CustomSounds.play('ring', {
-					volume: Number((100 / 100).toPrecision(2)),
-					loop: true,
+				const user = Users.findOne(fromUser, { fields: { username: 1 } });
+				if (!user) {
+					return;
+				}
+				modal.open({
+					title: `Call from @${ user.username }`,
+					text: `<div class="avatar"><img src="/avatar/${ user.username }" width="90" height="90"/></div>`,
+					// type: 'warning',
+					showCancelButton: true,
+					confirmButtonText: t('Join'),
+					cancelButtonText: t('Cancel'),
+					html: true,
+				}, async (code) => {
+					// Notifications.notifyUser(fromUser, 'jitsi_ring_stop', rid);
+					Notifications.notifyUsersOfRoom(rid, 'jitsi_ring_stop', rid);
+					CustomSounds.play('ring', { volume: 0, loop: false });
+					Session.set('JitsiAnswering', false);
+					Session.set('JitsiRinging', false);
+
+					if (code === false) {
+						return;
+					}
+
+					const isEnabledTokenAuth = settings.get('Jitsi_Enabled_TokenAuth');
+
+					let accessToken = null;
+					if (isEnabledTokenAuth) {
+						accessToken = await new Promise((resolve, reject) => {
+							Meteor.call('jitsi:generateAccessToken', rid, (error, result) => {
+								if (error) {
+									return reject(error);
+								}
+								resolve(result);
+							});
+						});
+					}
+
+					const room = Rooms.findOne({ _id: rid });
+					const currentTime = new Date().getTime();
+					const jitsiTimeout = new Date((room && room.jitsiTimeout) || currentTime).getTime();
+
+					if (jitsiTimeout > currentTime) {
+						let queryString = '';
+						if (accessToken) {
+							queryString = `?jwt=${ accessToken }`;
+						}
+
+						const domain = settings.get('Jitsi_Domain');
+						let rname;
+						if (settings.get('Jitsi_URL_Room_Hash')) {
+							rname = settings.get('uniqueID') + rid;
+						} else {
+							const room = Rooms.findOne({ _id: rid });
+							rname = encodeURIComponent(room.t === 'd' ? room.usernames.join(' x ') : room.name);
+						}
+						const jitsiRoom = settings.get('Jitsi_URL_Room_Prefix') + rname;
+						const noSsl = !settings.get('Jitsi_SSL');
+
+						const newWindow = window.open(`${ (noSsl ? 'http://' : 'https://') + domain }/${ jitsiRoom }${ queryString }`, jitsiRoom);
+						if (newWindow) {
+							return newWindow.focus();
+						}
+					} else {
+						toastr.info('Call Already Ended');
+					}
+				}, () => {
+					// Notifications.notifyUser(fromUser, 'jitsi_ring_stop', rid);
+					Notifications.notifyUsersOfRoom(rid, 'jitsi_ring_stop', rid);
+					CustomSounds.play('ring', { volume: 0, loop: false });
+					Session.set('JitsiAnswering', false);
+					Session.set('JitsiRinging', false);
 				});
+				CustomSounds.play('ring', { volume: 1, loop: true });
 			});
 
 			Notifications.onUser('jitsi_ring_stop', function() {
+				modal.close();
 				Session.set('JitsiRinging', false);
-				CustomSounds.play('ring', {
-					volume: 0,
-					loop: false,
-				});
+				CustomSounds.play('ring', {	volume: 0, loop: false });
 			});
 
 			Notifications.onUser('notification', function(notification) {

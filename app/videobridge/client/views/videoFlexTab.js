@@ -5,9 +5,7 @@ import { Template } from 'meteor/templating';
 import { TimeSync } from 'meteor/mizzao:timesync';
 
 import { settings } from '../../../settings';
-// import { modal, TabBar } from '../../../ui-utils';
 import { TabBar } from '../../../ui-utils';
-// import { t } from '../../../utils';
 import { Users, Rooms } from '../../../models';
 import * as CONSTANTS from '../../constants';
 import { Notifications } from '../../../notifications';
@@ -21,6 +19,7 @@ Template.videoFlexTab.helpers({
 
 Template.videoFlexTab.onCreated(function() {
 	this.tabBar = Template.currentData().tabBar;
+	this.message_send = false;
 });
 Template.videoFlexTab.onDestroyed(function() {
 	return this.stop && this.stop();
@@ -29,7 +28,7 @@ Template.videoFlexTab.onDestroyed(function() {
 Template.videoFlexTab.onRendered(function() {
 	this.api = null;
 
-	const rid = Session.get('openedRoom');
+	const rid = Session.get('JitsiAnswering') ? Session.get('JitsiAnswering') : Session.get('openedRoom');
 
 	const width = 'auto';
 	const height = 500;
@@ -52,9 +51,13 @@ Template.videoFlexTab.onRendered(function() {
 	};
 
 	const stop = () => {
-		Notifications.notifyUsersOfRoom(rid, 'jitsi_ring_stop');
+		Notifications.notifyUsersOfRoom(rid, 'jitsi_ring_stop', rid);
 		CustomSounds.play('ring', { volume: 0, loop: false });
 		Session.set('JitsiRinging', false);
+
+		if (Meteor.status().connected) {
+			Meteor.call('jitsi:comm_close_call', rid);
+		}
 
 		if (this.intervalHandler) {
 			Meteor.defer(() => this.api && this.api.dispose());
@@ -105,6 +108,16 @@ Template.videoFlexTab.onRendered(function() {
 			return stop();
 		}
 
+		const answeing = Session.get('JitsiAnswering');
+		if (!this.message_send && !answeing) {
+			Meteor.call('jitsi:comm_start_call', rid, (error) => {
+				if (error) {
+					console.log(error);
+				}
+			});
+		}
+		this.message_send = true;
+
 		const domain = settings.get('Jitsi_Domain');
 		let rname;
 		if (settings.get('Jitsi_URL_Room_Hash')) {
@@ -138,14 +151,13 @@ Template.videoFlexTab.onRendered(function() {
 		}
 
 		if (!jitsiRoomActive) {
-			const answeing = Session.get('JitsiAnswering');
 			const ringing = Session.get('JitsiRinging');
 			if (!answeing && !ringing) {
-				Notifications.notifyUsersOfRoom(rid, 'jitsi_ring_start');
+				Notifications.notifyUsersOfRoom(rid, 'jitsi_ring_start', rid, Meteor.userId());
 				CustomSounds.play('ring', { volume: 1, loop: true });
 				Session.set('JitsiRinging', true);
 			} else {
-				Notifications.notifyUsersOfRoom(rid, 'jitsi_ring_stop');
+				Notifications.notifyUsersOfRoom(rid, 'jitsi_ring_stop', rid);
 				CustomSounds.play('ring', { volume: 0, loop: false });
 				Session.set('JitsiAnswering', false);
 				Session.set('JitsiRinging', true);
@@ -192,6 +204,11 @@ Template.videoFlexTab.onRendered(function() {
 
 			// Execute any commands that might be reactive.  Like name changing.
 			this.api && this.api.executeCommand('displayName', [name]);
+
+			this.api && this.api.addEventListener('participantJoined', function(jid) {
+				console.log('JITSI JOIN');
+				console.log(jid);
+			});
 		}
 	});
 	// });

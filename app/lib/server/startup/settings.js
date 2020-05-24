@@ -772,7 +772,7 @@ settings.addGroup('General', function() {
 		i18nDescription: 'Site_Url_Description',
 		public: true,
 	});
-	this.add('Community_Url', "https://example.com", {
+	this.add('Community_Url', 'https://example.com', {
 		type: 'string',
 		i18nDescription: 'Community_Url_Description',
 		public: true,

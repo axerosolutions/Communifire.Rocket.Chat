@@ -9,4 +9,16 @@ Meteor.startup(function() {
 		system: true,
 		message: TAPi18n.__('Started_a_video_call'),
 	});
+
+	MessageTypes.registerType({
+		id: 'jitsi_comm_call_started',
+		system: true,
+		message: TAPi18n.__('Started_a_video_call'),
+	});
+
+	MessageTypes.registerType({
+		id: 'jitsi_comm_call_ended',
+		system: true,
+		message: TAPi18n.__('Started_a_video_call'),
+	});
 });

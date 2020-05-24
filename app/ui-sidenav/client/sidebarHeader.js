@@ -329,11 +329,11 @@ Template.sidebarHeader.events({
 										id: 'community',
 										action: () => {
 											if (settings.get('Community_Url')) {
-											const newwindow = window.open(settings.get('Community_Url'));
-											if (newwindow.focus) {
-												newwindow.focus();
-											}
-											popover.close();
+												const newwindow = window.open(settings.get('Community_Url'));
+												if (newwindow.focus) {
+													newwindow.focus();
+												}
+												popover.close();
 											}
 										},
 									},
