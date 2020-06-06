@@ -25,22 +25,33 @@ Template.adminFlex.onCreated(function() {
 const optout = new Set([
 	'Analytics',
 	'AtlassianCrowd',
+	'Apps',
 	'Blockstack',
 	'Bots',
 	'CAS',
 	'EmojiCustomFilesystem',
+	'Connectivity_Services',
+	'Custom_Emoji',
+	'Custom_Sounds',
+	'Custom_User_Status',
 	'CustomSoundsFilesystem',
 	'Discussion',
 	'Email',
 	'Enterprise',
 	'Federation',
+	'Federation Dashboard',
+	'Import',
+	'Invites',
 	'IRC_Federation',
 	'LDAP',
 	'LiveStream & Broadcasting',
+	'Marketplace',
 	'Meta',
 	'Omnichannel',
 	'OTR',
+	'OAuth Apps',
 	'Push',
+	'Permissions',
 	'Rate Limiter',
 	'Retention Policy',
 	'SAML',
@@ -59,6 +70,7 @@ const optout = new Set([
 Template.adminFlex.helpers({
 	isEmbedded: () => Layout.isEmbedded(),
 	sidebarItems: () => sidebarItems.get()
+		.filter((item) => !optout.has(item.i18nLabel))
 		.filter((sidebarItem) => !sidebarItem.permissionGranted || sidebarItem.permissionGranted())
 		.map(({ _id, i18nLabel, icon, href }) => ({
 			name: t(i18nLabel || _id),
@@ -101,7 +113,7 @@ Template.adminFlex.helpers({
 
 		return settings.collectionPrivate.find(query)
 			.fetch()
-            .filter((a) => (!optout.has(a._id)))
+			.filter((item) => !optout.has(item._id))
 			.map((item) => ({ ...item, name: t(item.i18nLabel || item._id) }))
 			.sort(({ name: a }, { name: b }) => (a.toLowerCase() >= b.toLowerCase() ? 1 : -1))
 			.map(({ _id, name }) => ({

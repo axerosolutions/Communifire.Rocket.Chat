@@ -18,7 +18,7 @@ export function RocketChatSection({ info, statistics, isLoading }) {
 
 	return <DescriptionList
 		data-qa='rocket-chat-list'
-		title={<Subtitle data-qa='rocket-chat-title'>{t('Rocket.Chat')}</Subtitle>}
+		title={<Subtitle data-qa='rocket-chat-title'>{t('Communifire')}</Subtitle>}
 	>
 		<DescriptionList.Entry label={t('Version')}>{s(() => statistics.version)}</DescriptionList.Entry>
 		{appsEngineVersion && <DescriptionList.Entry label={t('Apps_Engine_Version')}>{appsEngineVersion}</DescriptionList.Entry>}
