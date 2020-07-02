@@ -89,8 +89,8 @@ Meteor.startup(function() {
 				public: true,
 			});
 
-			this.add('Jitsi_URL_Room_Hash', true, {
-				type: 'boolean',
+			this.add('Jitsi_URL_Room_Suffix', '', {
+				type: 'string',
 				enableQuery: {
 					_id: 'Jitsi_Enabled',
 					value: true,

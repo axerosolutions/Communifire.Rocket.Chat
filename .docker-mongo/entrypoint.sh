@@ -8,7 +8,7 @@ echo """
  \\____\\___/|_| |_| |_|_| |_| |_|\\__,_|_| |_|_|_| |_|_|  \\___|
 """
 
-mongod --smallfiles --storageEngine=mmapv1 --fork --replSet rs0 --config /etc/mongod.conf
+mongod --fork --replSet rs0 --config /etc/mongod.conf
 
 until mongo --eval "db" &> /dev/null; do
 	echo "MongoDB still not ready, sleeping"
