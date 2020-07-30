@@ -140,13 +140,14 @@ export const sendNotification = async ({
 				userId: subscription.u._id,
 				senderUsername: sender.username,
 				senderName: sender.name,
-				receiverUsername: receiver.username,
+				receiver,
 			}),
 		});
 	}
 
 	if (receiver.emails && shouldNotifyEmail({
 		disableAllMessageNotifications,
+		statusConnection: receiver.statusConnection,
 		emailNotifications,
 		isHighlighted,
 		hasMentionToUser,
