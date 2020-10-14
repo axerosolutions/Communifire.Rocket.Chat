@@ -17,11 +17,14 @@ const wordBreak = css`
 `;
 
 const Info = ({ className, ...props }) => <UserCard.Info className={[className, wordBreak]} flexShrink={0} {...props}/>;
+const Avatar = ({ username, ...props }) => <UserAvatar title={username} username={username} {...props}/>;
+const Username = ({ username, status, ...props }) => <UserCard.Username name={username} status={status} {...props}/>;
 
 export const UserInfo = React.memo(function UserInfo({
 	username,
 	bio,
 	email,
+	showRealNames,
 	status,
 	phone,
 	customStatus,
@@ -43,12 +46,12 @@ export const UserInfo = React.memo(function UserInfo({
 
 	return <VerticalBar.ScrollableContent p='x24' {...props}>
 
-		<UserAvatar margin='auto' size={'x332'} title={username} username={username}/>
+		<Avatar size={'x332'} username={username}/>
 
 		{actions}
 
 		<Margins block='x4'>
-			<UserCard.Username name={username} status={status} />
+			<UserCard.Username name={(showRealNames && name) || username || name} status={status} />
 			<Info>{customStatus}</Info>
 
 			{!!roles && <>
@@ -59,6 +62,11 @@ export const UserInfo = React.memo(function UserInfo({
 			{Number.isInteger(utcOffset) && <>
 				<Label>{t('Local Time')}</Label>
 				<Info><UTCClock utcOffset={utcOffset}/></Info>
+			</>}
+
+			{username && username !== name && <>
+				<Label>{t('Username')}</Label>
+				<Info>{username}</Info>
 			</>}
 
 			<Label>{t('Last_login')}</Label>
@@ -116,5 +124,9 @@ export const Action = ({ icon, label, ...props }) => (
 );
 
 UserInfo.Action = Action;
+UserInfo.Avatar = Avatar;
+UserInfo.Info = Info;
+UserInfo.Label = Label;
+UserInfo.Username = Username;
 
 export default UserInfo;

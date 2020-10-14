@@ -42,10 +42,7 @@ function enableNotificationReplyButton(room, username) {
 }
 
 export async function getPushData({ room, message, userId, senderUsername, senderName, notificationMessage, receiver, shouldOmitMessage = true }) {
-	let username = '';
-	if (settings.get('Push_show_username_room')) {
-		username = settings.get('UI_Use_Real_Name') === true ? senderName : senderUsername;
-	}
+	const username = (settings.get('Push_show_username_room') && settings.get('UI_Use_Real_Name') && senderName) || senderUsername;
 
 	const lng = receiver.language || settings.get('Language') || 'en';
 
@@ -61,10 +58,12 @@ export async function getPushData({ room, message, userId, senderUsername, sende
 	return {
 		payload: {
 			sender: message.u,
+			senderName: username,
 			type: room.t,
 			name: room.name,
 			messageType: message.t,
 			tmid: message.tmid,
+			...message.t === 'e2e' && { msg: message.msg },
 		},
 		roomName: settings.get('Push_show_username_room') && roomTypes.getConfig(room.t).isGroupChat(room) ? `#${ roomTypes.getRoomName(room.t, room) }` : '',
 		username,
@@ -84,6 +83,10 @@ export function shouldNotifyMobile({
 	roomType,
 	isThread,
 }) {
+	if (settings.get('Push_enable') !== true) {
+		return false;
+	}
+
 	if (disableAllMessageNotifications && mobilePushNotifications == null && !isHighlighted && !hasMentionToUser && !hasReplyToThread) {
 		return false;
 	}

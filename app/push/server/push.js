@@ -1,5 +1,4 @@
 import { Meteor } from 'meteor/meteor';
-import { EJSON } from 'meteor/ejson';
 import { Match, check } from 'meteor/check';
 import { Mongo } from 'meteor/mongo';
 import { HTTP } from 'meteor/http';
@@ -80,8 +79,6 @@ export class PushClass {
 	sendNotificationNative(app, notification, countApn, countGcm) {
 		logger.debug('send to token', app.token);
 
-		notification.payload = notification.payload ? { ejson: EJSON.stringify(notification.payload) } : {};
-
 		if (app.token.apn) {
 			countApn.push(app._id);
 			// Send to APN
@@ -119,7 +116,7 @@ export class PushClass {
 		}
 
 		return HTTP.post(`${ gateway }/push/${ service }/send`, data, (error, response) => {
-			if (response && response.statusCode === 406) {
+			if (response?.statusCode === 406) {
 				logger.info('removing push token', token);
 				appTokensCollection.remove({
 					$or: [{
@@ -131,14 +128,25 @@ export class PushClass {
 				return;
 			}
 
+			if (response?.statusCode === 422) {
+				logger.info('gateway rejected push notification. not retrying.', response);
+				return;
+			}
+
+			if (response?.statusCode === 401) {
+				logger.warn('Error sending push to gateway (not authorized)', response);
+				return;
+			}
+
 			if (!error) {
 				return;
 			}
 
 			logger.error(`Error sending push to gateway (${ tries } try) ->`, error);
 
-			if (tries <= 6) {
-				const ms = Math.pow(10, tries + 2);
+			if (tries <= 4) {
+				// [1, 2, 4, 8, 16] minutes (total 31)
+				const ms = 60000 * Math.pow(2, tries);
 
 				logger.log('Trying sending push to gateway again in', ms, 'milliseconds');
 
