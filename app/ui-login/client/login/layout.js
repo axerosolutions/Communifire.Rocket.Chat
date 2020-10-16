@@ -14,4 +14,16 @@ Template.loginLayout.helpers({
 			return `${ prefix }/${ asset.url || asset.defaultUrl }`;
 		}
 	},
+	IsDefault()
+	{
+		return location.href.toLowerCase().indexOf('default=true') != -1
+	},
+	UseCFLogin(){
+		var services = ServiceConfiguration.configurations.find({
+			service:'communifire'
+		}).fetch().map(function(service) {
+			return service.service;
+		}); 
+		return services.length > 0 && location.href.toLowerCase().indexOf('default=true') == -1;
+	}
 });
