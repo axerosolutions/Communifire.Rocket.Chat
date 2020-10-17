@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import { ServiceConfiguration } from 'meteor/service-configuration';
 
 import { settings } from '../../../settings';
 
@@ -13,5 +14,16 @@ Template.loginLayout.helpers({
 		if (asset && (asset.url || asset.defaultUrl)) {
 			return `${ prefix }/${ asset.url || asset.defaultUrl }`;
 		}
+	},
+	IsDefault() {
+		return location.href.toLowerCase().indexOf('default=true') !== -1;
+	},
+	UseCFLogin() {
+		const services = ServiceConfiguration.configurations.find({
+			service: 'communifire',
+		}).fetch().map(function(service) {
+			return service.service;
+		});
+		return services.length > 0 && location.href.toLowerCase().indexOf('default=true') === -1;
 	},
 });
