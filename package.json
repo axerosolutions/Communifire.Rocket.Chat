@@ -16,6 +16,7 @@
 		"debug": "meteor run --inspect",
 		"debug-brk": "meteor run --inspect-brk",
 		"lint": "meteor npm run stylelint && meteor npm run eslint",
+		"lint-fix": "eslint --ext .js,.jsx . --fix",
 		"jslint": "eslint --ext .js,.jsx .",
 		"tslint": "eslint --ext .ts,.tsx .",
 		"eslint": "meteor npm run jslint && meteor npm run tslint",

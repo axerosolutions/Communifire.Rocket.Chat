@@ -1,4 +1,5 @@
 import { Template } from 'meteor/templating';
+import { ServiceConfiguration } from 'meteor/service-configuration';
 
 import { settings } from '../../../settings';
 
@@ -14,16 +15,15 @@ Template.loginLayout.helpers({
 			return `${ prefix }/${ asset.url || asset.defaultUrl }`;
 		}
 	},
-	IsDefault()
-	{
-		return location.href.toLowerCase().indexOf('default=true') != -1
+	IsDefault() {
+		return location.href.toLowerCase().indexOf('default=true') !== -1;
 	},
-	UseCFLogin(){
-		var services = ServiceConfiguration.configurations.find({
-			service:'communifire'
+	UseCFLogin() {
+		const services = ServiceConfiguration.configurations.find({
+			service: 'communifire',
 		}).fetch().map(function(service) {
 			return service.service;
-		}); 
-		return services.length > 0 && location.href.toLowerCase().indexOf('default=true') == -1;
-	}
+		});
+		return services.length > 0 && location.href.toLowerCase().indexOf('default=true') === -1;
+	},
 });
