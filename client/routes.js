@@ -12,6 +12,8 @@ import { ChatSubscription } from '../app/models';
 import { roomTypes, handleError } from '../app/utils';
 import { call } from '../app/ui-utils';
 import { renderRouteComponent } from './reactAdapters';
+import { callbacks } from '../app/callbacks';
+import { settings } from '../app/settings';
 
 const getRoomById = mem((rid) => call('getRoomById', rid));
 
@@ -62,6 +64,35 @@ FlowRouter.route('/login', {
 
 	action() {
 		FlowRouter.go('home');
+	},
+});
+
+FlowRouter.route('/logout', {
+	name: 'logout',
+
+	action() {
+		const user = Meteor.user();
+		Meteor.logout(() => {
+			callbacks.run('afterLogoutCleanUp', user);
+			Meteor.call('logoutCleanUp', user);
+			if (settings.get('Community_Url')) {
+				window.location = settings.get('Community_Url');
+			} else {
+				return FlowRouter.go('home');
+			}
+		});
+	},
+});
+
+FlowRouter.route('/communityLogout', {
+	name: 'communityLogout',
+
+	action() {
+		if (settings.get('Community_Url')) {
+			window.location = `${ settings.get('Community_Url') }/logout`;
+		} else {
+			FlowRouter.go('home');
+		}
 	},
 });
 
