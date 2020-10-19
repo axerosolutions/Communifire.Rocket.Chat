@@ -5,7 +5,7 @@ import s from 'underscore.string';
 import { ServiceConfiguration } from 'meteor/service-configuration';
 
 Template.loginWithCommuifire.rendered = function() {
-	if (window.location.indexOf('communityLogout') !== -1) {
+	if (window.location.href.indexOf('communityLogout') !== -1) {
 		return;
 	}
 	const services = ServiceConfiguration.configurations.find({

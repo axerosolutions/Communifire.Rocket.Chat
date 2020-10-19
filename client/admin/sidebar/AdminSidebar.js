@@ -13,6 +13,7 @@ import Sidebar from '../../components/basic/Sidebar';
 import SettingsProvider from '../../providers/SettingsProvider';
 import { itemsSubscription } from '../sidebarItems';
 import PlanTag from '../../components/basic/PlanTag';
+
 const optout = new Set([
 	'Analytics',
 	'AtlassianCrowd',
@@ -58,9 +59,27 @@ const optout = new Set([
 	'WebRTC',
 ]);
 
+const adminPagesToKeep = [
+	'admin-users',
+	'admin-rooms',
+];
+
+const settingsToKeep = [
+	'Assets',
+	'General',
+	'Layout',
+	'OAuth',
+	'Video Conference',
+];
+
+const isDefaultView = window.location.href.indexOf('default=true') !== -1;
 
 const AdminSidebarPages = React.memo(({ currentPath }) => {
-	const items = useSubscription(itemsSubscription);
+	const items = useSubscription(itemsSubscription).filter(function(item) {
+		return adminPagesToKeep.filter(function(itemToKeep) {
+			return isDefaultView || itemToKeep === item.href;
+		}).length > 0;
+	});
 
 	return <Box display='flex' flexDirection='column' flexShrink={0} pb='x8'>
 		<Sidebar.ItemsAssembler items={items} currentPath={currentPath}/>
@@ -68,7 +87,11 @@ const AdminSidebarPages = React.memo(({ currentPath }) => {
 });
 
 const useSettingsGroups = (filter) => {
-	const settings = useSettings();
+	const settings = useSettings().filter(function(item) {
+		return settingsToKeep.filter(function(itemToKeep) {
+			return isDefaultView || itemToKeep === item._id;
+		}).length > 0;
+	});
 
 	const t = useTranslation();
 
