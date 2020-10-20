@@ -1382,7 +1382,7 @@ settings.addGroup('Layout', function() {
 		});
 	});
 	return this.section('User_Interface', function() {
-		this.add('UI_DisplayRoles', true, {
+		this.add('UI_DisplayRoles', false, {
 			type: 'boolean',
 			public: true,
 		});
@@ -1390,11 +1390,11 @@ settings.addGroup('Layout', function() {
 			type: 'boolean',
 			public: false,
 		});
-		this.add('UI_Use_Name_Avatar', false, {
+		this.add('UI_Use_Name_Avatar', true, {
 			type: 'boolean',
 			public: true,
 		});
-		this.add('UI_Use_Real_Name', false, {
+		this.add('UI_Use_Real_Name', true, {
 			type: 'boolean',
 			public: true,
 		});
