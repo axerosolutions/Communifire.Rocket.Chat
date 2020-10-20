@@ -62,14 +62,14 @@ Meteor.startup(function() {
 		});
 
 		this.section('Jitsi', function() {
-			this.add('Jitsi_Enabled', false, {
+			this.add('Jitsi_Enabled', true, {
 				type: 'boolean',
 				i18nLabel: 'Enabled',
 				alert: 'This Feature is currently in beta! Please report bugs to github.com/RocketChat/Rocket.Chat/issues',
 				public: true,
 			});
 
-			this.add('Jitsi_Domain', 'meet.jit.si', {
+			this.add('Jitsi_Domain', 'meet.communifire.com', {
 				type: 'string',
 				enableQuery: {
 					_id: 'Jitsi_Enabled',
@@ -100,7 +100,7 @@ Meteor.startup(function() {
 				public: true,
 			});
 
-			this.add('Jitsi_URL_Room_Hash', true, {
+			this.add('Jitsi_URL_Room_Hash', false, {
 				type: 'boolean',
 				enableQuery: {
 					_id: 'Jitsi_Enabled',
