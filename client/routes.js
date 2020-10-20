@@ -88,11 +88,16 @@ FlowRouter.route('/communityLogout', {
 	name: 'communityLogout',
 
 	action() {
-		if (settings.get('Community_Url')) {
-			window.location = `${ settings.get('Community_Url') }/logout`;
-		} else {
-			FlowRouter.go('home');
-		}
+		const user = Meteor.user();
+		Meteor.logout(() => {
+			callbacks.run('afterLogoutCleanUp', user);
+			Meteor.call('logoutCleanUp', user);
+			if (settings.get('Community_Url')) {
+				window.location = `${ settings.get('Community_Url') }/logout`;
+			} else {
+				return FlowRouter.go('home');
+			}
+		});
 	},
 });
 
