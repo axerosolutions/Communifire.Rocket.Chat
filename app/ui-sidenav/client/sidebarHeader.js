@@ -159,7 +159,7 @@ const toolbarButtons = (/* user */) => [{
 				type: 'open',
 				id: 'administration',
 				action: () => {
-					FlowRouter.go('admin', { group: 'info' });
+					FlowRouter.go('admin', { group: 'users' });
 					popover.close();
 				},
 			};

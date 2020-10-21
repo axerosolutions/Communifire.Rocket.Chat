@@ -94,8 +94,6 @@ FlowRouter.route('/communityLogout', {
 			Meteor.call('logoutCleanUp', user);
 			if (settings.get('Community_Url')) {
 				window.location = `${ settings.get('Community_Url') }/logout`;
-			} else {
-				return FlowRouter.go('home');
 			}
 		});
 	},

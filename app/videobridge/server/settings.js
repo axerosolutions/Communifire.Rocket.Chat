@@ -4,7 +4,7 @@ import { settings } from '../../settings';
 
 Meteor.startup(function() {
 	settings.addGroup('Video Conference', function() {
-		this.section('BigBlueButton', function() {
+		/* this.section('BigBlueButton', function() {
 			this.add('bigbluebutton_Enabled', false, {
 				type: 'boolean',
 				i18nLabel: 'Enabled',
@@ -58,14 +58,14 @@ Meteor.startup(function() {
 					value: true,
 				},
 				public: true,
-			});
-		});
+			})
+		});*/
 
 		this.section('Jitsi', function() {
 			this.add('Jitsi_Enabled', true, {
 				type: 'boolean',
 				i18nLabel: 'Enabled',
-				alert: 'This Feature is currently in beta! Please report bugs to github.com/RocketChat/Rocket.Chat/issues',
+				// alert: 'This Feature is currently in beta! Please report bugs to github.com/RocketChat/Rocket.Chat/issues',
 				public: true,
 			});
 
@@ -79,7 +79,7 @@ Meteor.startup(function() {
 				public: true,
 			});
 
-			this.add('Jitsi_URL_Room_Prefix', 'Communifire', {
+			this.add('Jitsi_URL_Room_Prefix', '', {
 				type: 'string',
 				enableQuery: {
 					_id: 'Jitsi_Enabled',
@@ -121,7 +121,7 @@ Meteor.startup(function() {
 				public: true,
 			});
 
-			this.add('Jitsi_Open_New_Window', false, {
+			this.add('Jitsi_Open_New_Window', true, {
 				type: 'boolean',
 				enableQuery: {
 					_id: 'Jitsi_Enabled',
@@ -131,7 +131,7 @@ Meteor.startup(function() {
 				public: true,
 			});
 
-			this.add('Jitsi_Enable_Channels', false, {
+			this.add('Jitsi_Enable_Channels', true, {
 				type: 'boolean',
 				enableQuery: {
 					_id: 'Jitsi_Enabled',
