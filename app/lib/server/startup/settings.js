@@ -1320,7 +1320,7 @@ settings.addGroup('Push', function() {
 
 settings.addGroup('Layout', function() {
 	this.section('Content', function() {
-		this.add('Layout_Home_Title', '', {
+		this.add('Layout_Home_Title', '  ', {
 			type: 'string',
 			public: true,
 		});
