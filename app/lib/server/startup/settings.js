@@ -820,7 +820,7 @@ settings.addGroup('General', function() {
 		type: 'boolean',
 		public: true,
 	});
-	this.add('First_Channel_After_Login', '', {
+	this.add('First_Channel_After_Login', 'general', {
 		type: 'string',
 		public: true,
 	});
