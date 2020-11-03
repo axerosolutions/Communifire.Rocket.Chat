@@ -235,10 +235,10 @@ const MailExportForm = ({ onCancel, rid }) => {
 export const ExportMessages = function ExportMessages({ rid, tabBar }) {
 	const t = useTranslation();
 
-	const [type, setType] = useState('email');
+	const [type, setType] = useState('file');
 
 	const exportOptions = useMemo(() => [
-		['email', t('Send_via_email')],
+		//['email', t('Send_via_email')],
 		['file', t('Export_as_file')],
 	], [t]);
 
