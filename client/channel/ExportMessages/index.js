@@ -238,7 +238,7 @@ export const ExportMessages = function ExportMessages({ rid, tabBar }) {
 	const [type, setType] = useState('file');
 
 	const exportOptions = useMemo(() => [
-		//['email', t('Send_via_email')],
+		// ['email', t('Send_via_email')],
 		['file', t('Export_as_file')],
 	], [t]);
 

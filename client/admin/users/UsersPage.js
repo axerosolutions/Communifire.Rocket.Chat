@@ -1,4 +1,4 @@
-import { Button, ButtonGroup, Icon } from '@rocket.chat/fuselage';
+// import { Button, ButtonGroup, Icon } from '@rocket.chat/fuselage';
 import React from 'react';
 
 import Page from '../../components/basic/Page';
@@ -20,13 +20,13 @@ function UsersPage() {
 		usersRoute.push({});
 	};
 
-	const handleNewButtonClick = () => {
+	/* const handleNewButtonClick = () => {
 		usersRoute.push({ context: 'new' });
 	};
 
 	const handleInviteButtonClick = () => {
 		usersRoute.push({ context: 'invite' });
-	};
+	};*/
 
 	const context = useRouteParameter('context');
 	const id = useRouteParameter('id');
@@ -34,14 +34,14 @@ function UsersPage() {
 	return <Page flexDirection='row'>
 		<Page>
 			<Page.Header title={t('Users')}>
-				<ButtonGroup>
+				{/* <ButtonGroup>
 					<Button onClick={handleNewButtonClick}>
 						<Icon name='plus'/> {t('New')}
 					</Button>
 					<Button onClick={handleInviteButtonClick}>
 						<Icon name='send'/> {t('Invite')}
 					</Button>
-				</ButtonGroup>
+				</ButtonGroup>*/}
 			</Page.Header>
 			<Page.Content>
 				<UsersTable />

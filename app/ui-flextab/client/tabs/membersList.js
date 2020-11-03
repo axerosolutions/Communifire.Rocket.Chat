@@ -10,7 +10,7 @@ import { ChatRoom, Subscriptions } from '../../../models/client';
 import { settings } from '../../../settings/client';
 import { t, isRtl, handleError, roomTypes, getUserAvatarURL } from '../../../utils/client';
 import { WebRTC } from '../../../webrtc/client';
-import { hasPermission } from '../../../authorization/client';
+// import { hasPermission } from '../../../authorization/client';
 import { createTemplateForComponent } from '../../../../client/reactAdapters';
 
 createTemplateForComponent('UserInfoWithData', () => import('../../../../client/channel/UserInfo'), {
@@ -98,7 +98,7 @@ Template.membersList.helpers({
 	},
 
 	canInviteUser() {
-		return false; //hasPermission('create-invite-links', this._id);
+		return false; // hasPermission('create-invite-links', this._id);
 	},
 
 	showUserInfo() {
