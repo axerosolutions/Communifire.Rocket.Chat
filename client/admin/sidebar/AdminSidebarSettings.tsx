@@ -7,9 +7,22 @@ import { useSettings } from '../../contexts/SettingsContext';
 import { useTranslation } from '../../contexts/TranslationContext';
 import Sidebar from '../../components/basic/Sidebar';
 
-const useSettingsGroups = (filter: string): ISetting[] => {
-	const settings = useSettings();
+const settingsToKeep = [
+	'Assets',
+	'General',
+	'Layout',
+	'OAuth',
+	'Video Conference',
+];
+const isDefaultView = window.location.href.indexOf('default=true') !== -1;
 
+const useSettingsGroups = (filter: string): ISetting[] => {
+	//const settings = useSettings();
+	const settings = useSettings().filter(function(item) {
+		return settingsToKeep.filter(function(itemToKeep) {
+			return isDefaultView || itemToKeep === item._id;
+		}).length > 0;
+	});
 	const t = useTranslation();
 
 	const filterPredicate = useMemo(() => {

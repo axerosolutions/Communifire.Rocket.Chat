@@ -9,9 +9,20 @@ type AdminSidebarPagesProps = {
 	currentPath: string;
 };
 
-const AdminSidebarPages: FC<AdminSidebarPagesProps> = ({ currentPath }) => {
-	const items = useSubscription(itemsSubscription);
+const adminPagesToKeep = [
+	'admin-users',
+	'admin-rooms',
+];
 
+const isDefaultView = window.location.href.indexOf('default=true') !== -1;
+
+const AdminSidebarPages: FC<AdminSidebarPagesProps> = ({ currentPath }) => {
+	//const items = useSubscription(itemsSubscription);
+	const items = useSubscription(itemsSubscription).filter(function(item) {
+		return adminPagesToKeep.filter(function(itemToKeep) {
+			return isDefaultView || itemToKeep === item.href;
+		}).length > 0;
+	});
 	return <Box display='flex' flexDirection='column' flexShrink={0} pb='x8'>
 		<Sidebar.ItemsAssembler items={items} currentPath={currentPath}/>
 	</Box>;
