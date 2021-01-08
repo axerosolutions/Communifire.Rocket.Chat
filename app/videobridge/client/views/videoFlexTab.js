@@ -5,7 +5,7 @@ import { Template } from 'meteor/templating';
 import { TimeSync } from 'meteor/mizzao:timesync';
 
 import { settings } from '../../../settings';
-import { TabBar, call } from '../../../ui-utils/client';
+import { modal, call } from '../../../ui-utils/client';
 import { Users, Rooms } from '../../../models';
 import * as CONSTANTS from '../../constants';
 import { Notifications } from '../../../notifications';
@@ -47,7 +47,7 @@ Template.videoFlexTab.onRendered(function() {
 
 		this.tabBar.close();
 
-		TabBar.updateButton('video', { class: '' });
+		// TabBar.updateButton('video', { class: '' });
 	};
 
 	const stop = () => {
@@ -88,7 +88,7 @@ Template.videoFlexTab.onRendered(function() {
 			}
 			clearInterval(this.intervalHandler);
 			this.intervalHandler = setInterval(update, CONSTANTS.HEARTBEAT);
-			TabBar.updateButton('video', { class: 'red' });
+			// TabBar.updateButton('video', { class: 'red' });
 			return jitsiTimeout;
 		} catch (error) {
 			console.error(error);
@@ -115,8 +115,8 @@ Template.videoFlexTab.onRendered(function() {
 			return closePanel();
 		}
 
-		if (this.tabBar.getState() !== 'opened') {
-			TabBar.updateButton('video', { class: '' });
+			if (!this.tabBar.isOpen()) {
+				// TabBar.updateButton('video', { class: '' });
 			return stop();
 		}
 
