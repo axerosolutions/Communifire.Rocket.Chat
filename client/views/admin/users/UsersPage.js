@@ -1,4 +1,4 @@
-// import { Button, ButtonGroup, Icon } from '@rocket.chat/fuselage';
+import { Button, ButtonGroup, Icon } from '@rocket.chat/fuselage';
 import React from 'react';
 
 import Page from '../../../components/Page';
@@ -10,6 +10,7 @@ import { EditUserWithData } from './EditUser';
 import { AddUser } from './AddUser';
 import { InviteUsers } from './InviteUsers';
 import UsersTable from './UsersTable';
+import { CFUtilities } from '../../../cf/utilities';
 
 function UsersPage() {
 	const t = useTranslation();
@@ -20,49 +21,79 @@ function UsersPage() {
 		usersRoute.push({});
 	};
 
-	/* const handleNewButtonClick = () => {
+	const handleNewButtonClick = () => {
 		usersRoute.push({ context: 'new' });
 	};
 
 	const handleInviteButtonClick = () => {
 		usersRoute.push({ context: 'invite' });
-	};*/
+	};
 
 	const context = useRouteParameter('context');
 	const id = useRouteParameter('id');
 
-	return <Page flexDirection='row'>
-		<Page>
-			<Page.Header title={t('Users')}>
-				{/* <ButtonGroup>
-					<Button onClick={handleNewButtonClick}>
-						<Icon name='plus'/> {t('New')}
-					</Button>
-					<Button onClick={handleInviteButtonClick}>
-						<Icon name='send'/> {t('Invite')}
-					</Button>
-				</ButtonGroup>*/}
-			</Page.Header>
-			<Page.Content>
-				<UsersTable />
-			</Page.Content>
+	var pageStructure = CFUtilities.IsDefaultLayout() ? (
+		<Page flexDirection='row'>
+			<Page>
+				<Page.Header title={t('Users')}>
+					<ButtonGroup>
+						<Button onClick={handleNewButtonClick}>
+							<Icon name='plus' /> {t('New')}
+						</Button>
+						<Button onClick={handleInviteButtonClick}>
+							<Icon name='send' /> {t('Invite')}
+						</Button>
+					</ButtonGroup>
+				</Page.Header>
+				<Page.Content>
+					<UsersTable />
+				</Page.Content>
+			</Page>
+			{context && (
+				<VerticalBar>
+					<VerticalBar.Header>
+						{context === 'info' && t('User_Info')}
+						{context === 'edit' && t('Edit_User')}
+						{context === 'new' && t('Add_User')}
+						{context === 'invite' && t('Invite_Users')}
+						<VerticalBar.Close onClick={handleVerticalBarCloseButtonClick} />
+					</VerticalBar.Header>
+
+					{context === 'info' && <UserInfoWithData uid={id} />}
+					{context === 'edit' && <EditUserWithData uid={id} />}
+					{context === 'new' && <AddUser />}
+					{context === 'invite' && <InviteUsers />}
+				</VerticalBar>
+			)}
 		</Page>
-		{context && <VerticalBar>
-			<VerticalBar.Header>
-				{context === 'info' && t('User_Info')}
-				{context === 'edit' && t('Edit_User')}
-				{context === 'new' && t('Add_User')}
-				{context === 'invite' && t('Invite_Users')}
-				<VerticalBar.Close onClick={handleVerticalBarCloseButtonClick} />
-			</VerticalBar.Header>
+	) : (
+			<Page flexDirection='row'>
+				<Page>
+					<Page.Header title={t('Users')}></Page.Header>
+					<Page.Content>
+						<UsersTable />
+					</Page.Content>
+				</Page>
+				{context && (
+					<VerticalBar>
+						<VerticalBar.Header>
+							{context === 'info' && t('User_Info')}
+							{context === 'edit' && t('Edit_User')}
+							{context === 'new' && t('Add_User')}
+							{context === 'invite' && t('Invite_Users')}
+							<VerticalBar.Close onClick={handleVerticalBarCloseButtonClick} />
+						</VerticalBar.Header>
 
-			{context === 'info' && <UserInfoWithData uid={id}/>}
-			{context === 'edit' && <EditUserWithData uid={id}/>}
-			{context === 'new' && <AddUser/>}
-			{context === 'invite' && <InviteUsers/>}
+						{context === 'info' && <UserInfoWithData uid={id} />}
+						{context === 'edit' && <EditUserWithData uid={id} />}
+						{context === 'new' && <AddUser />}
+						{context === 'invite' && <InviteUsers />}
+					</VerticalBar>
+				)}
+			</Page>
+		);
 
-		</VerticalBar>}
-	</Page>;
+	return pageStructure;
 }
 
 export default UsersPage;
