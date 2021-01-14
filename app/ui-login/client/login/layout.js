@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating';
 import { ServiceConfiguration } from 'meteor/service-configuration';
+import { CFUtilities } from '../../../../imports/cf/utilities';
 
 import { settings } from '../../../settings';
 
@@ -15,8 +16,8 @@ Template.loginLayout.helpers({
 			return `${ prefix }/${ asset.url || asset.defaultUrl }`;
 		}
 	},
-	IsDefault() {
-		return location.href.toLowerCase().indexOf('default=true') !== -1;
+	IsDefaultLayout() {
+		return CFUtilities.IsDefaultLayout();
 	},
 	UseCFLogin() {
 		const services = ServiceConfiguration.configurations.find({
@@ -24,6 +25,6 @@ Template.loginLayout.helpers({
 		}).fetch().map(function(service) {
 			return service.service;
 		});
-		return services.length > 0 && location.href.toLowerCase().indexOf('default=true') === -1;
+		return services.length > 0 && !CFUtilities.IsDefaultLayout();
 	},
 });

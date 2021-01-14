@@ -10,7 +10,7 @@ import { EditUserWithData } from './EditUser';
 import { AddUser } from './AddUser';
 import { InviteUsers } from './InviteUsers';
 import UsersTable from './UsersTable';
-import { CFUtilities } from '../../../cf/utilities';
+import { CFUtilities } from '../../../../imports/cf/utilities';
 
 function UsersPage() {
 	const t = useTranslation();
