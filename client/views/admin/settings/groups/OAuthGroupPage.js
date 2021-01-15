@@ -9,6 +9,7 @@ import { useToastMessageDispatch } from '../../../../contexts/ToastMessagesConte
 import { useTranslation } from '../../../../contexts/TranslationContext';
 import GroupPage from '../GroupPage';
 import { Section } from '../Section';
+import { CFUtilities } from '../../../../../imports/cf/utilities';
 
 function OAuthGroupPage({ _id, ...group }) {
 	const sections = useEditableSettingsGroupSections(_id);
@@ -63,6 +64,14 @@ function OAuthGroupPage({ _id, ...group }) {
 			}
 		});
 	};
+
+	if(!CFUtilities.IsDefaultLayout()){
+		return <GroupPage _id={_id} {...group}>
+			{sections.map((sectionName) => {
+				return <Section key={sectionName} groupId={_id} sectionName={sectionName} solo={solo} />;
+			})}
+		</GroupPage>;
+	}
 
 	return <GroupPage _id={_id} {...group} headerButtons={<>
 		<Button onClick={handleRefreshOAuthServicesButtonClick}>{t('Refresh_oauth_services')}</Button>
