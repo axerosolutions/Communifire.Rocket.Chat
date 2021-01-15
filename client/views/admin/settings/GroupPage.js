@@ -9,8 +9,30 @@ import { useToastMessageDispatch } from '../../../contexts/ToastMessagesContext'
 import { useTranslation, useLoadLanguage } from '../../../contexts/TranslationContext';
 import { useUser } from '../../../contexts/UserContext';
 import { Section } from './Section';
+import { CFUtilities } from '../../../../imports/cf/utilities';
 
 function GroupPage({ children, headerButtons, _id, i18nLabel, i18nDescription }) {
+	if(!CFUtilities.IsDefaultLayout() && _id === 'OAuth')
+	{
+		// Do not allow other OAuth apps to render on OAuth section (/admin/OAuth)
+		if(children)
+		{
+			let childrenModified = new Array();
+
+			for (var i = 0; i < children.length; i++) {
+				var item = children[i];
+
+				if(item.key == 'Custom OAuth: Communifire')
+				{
+					childrenModified.push(item);
+					break;
+				}
+			}
+
+			children = childrenModified; 
+		}
+	} 
+
 	const changedEditableSettings = useEditableSettings(useMemo(() => ({
 		group: _id,
 		changed: true,
