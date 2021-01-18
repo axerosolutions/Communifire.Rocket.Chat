@@ -12,6 +12,7 @@ import { UserStatus } from '../../components/UserStatus';
 import { userStatus } from '../../../app/user-status';
 import { callbacks } from '../../../app/callbacks';
 import UserAvatar from '../../components/avatar/UserAvatar';
+import { settings } from '../../../app/settings';
 
 const setStatus = (status, statusText) => {
 	AccountBox.setStatus(status, statusText);
@@ -86,14 +87,26 @@ const onClick = (e, t, allowAnonymousRead) => {
 						},
 						{
 							items: [
+								// {
+								// 	icon: 'user',
+								// 	name: t('My_Account'),
+								// 	type: 'open',
+								// 	id: 'account',
+								// 	action: () => {
+								// 		FlowRouter.go('account');
+								// 		popover.close();
+								// 	},
+								// },
 								{
 									icon: 'user',
-									name: t('My_Account'),
+									name: t('View_Community'),
 									type: 'open',
-									id: 'account',
+									id: 'community',
 									action: () => {
-										FlowRouter.go('account');
-										popover.close();
+										if (settings.get('Community_Url')) {
+											window.location.href =  settings.get('Community_Url');
+											popover.close();
+										}
 									},
 								},
 								{
