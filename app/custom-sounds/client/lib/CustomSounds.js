@@ -86,7 +86,9 @@ class CustomSoundsClass {
 		}
 
 		audio.pause();
-		audio.currentTime = 0;
+		if (audio.currentTime !== 0) {
+			audio.currentTime = 0;
+		}
 	}
 }
 
