@@ -14,6 +14,7 @@ import { useAtLeastOnePermission } from '../../contexts/AuthorizationContext';
 import { userStatus } from '../../../app/user-status';
 import { callbacks } from '../../../app/callbacks';
 import { popover, AccountBox, modal, SideNav } from '../../../app/ui-utils';
+import { settings } from '../../../app/settings';
 
 const ADMIN_PERMISSIONS = [
 	'view-logs',
@@ -90,8 +91,15 @@ const UserDropdown = ({ user, onClose }) => {
 	});
 
 	const handleMyAccount = useMutableCallback(() => {
-		accountRoute.push({});
-		popover.close();
+		debugger;
+		if (settings.get('Community_Url')) {
+			window.location.href =  settings.get('Community_Url');
+			popover.close();
+		}
+		else{
+			accountRoute.push({});
+			popover.close();
+		}
 	});
 
 	const handleAdmin = useMutableCallback(() => {
@@ -162,7 +170,7 @@ const UserDropdown = ({ user, onClose }) => {
 
 		<Divider mi='neg-x16' mb='x16'/>
 		<div style={style}>
-			<Option icon='user' label={t('My_Account')} onClick={handleMyAccount}/>
+			<Option icon='user' label={t('View_Community')} onClick={handleMyAccount}/>
 			<Option icon='sign-out' label={t('Logout')} onClick={handleLogout}/>
 		</div>
 

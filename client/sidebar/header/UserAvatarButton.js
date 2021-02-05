@@ -22,23 +22,10 @@ const openDropdown = (e, user, onClose, allowAnonymousRead) => {
 				user,
 				onClose,
 			},
-								// {
-								// 	icon: 'user',
-								// 	name: t('My_Account'),
-								// 	type: 'open',
-								// 	id: 'account',
-								// 	action: () => {
-								// 		FlowRouter.go('account');
-								// 		popover.close();
-								// 	},
-								// },
-											window.location.href =  settings.get('Community_Url');
-										}
 			offsetVertical: e.currentTarget.clientHeight + 10,
 		});
 	}
 };
-
 export default React.memo(({ user = {} }) => {
 	const {
 		_id: uid,
