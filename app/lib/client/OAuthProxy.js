@@ -4,11 +4,9 @@ import { OAuth } from 'meteor/oauth';
 import { settings } from '../../settings';
 
 OAuth.launchLogin = _.wrap(OAuth.launchLogin, function(func, options) {
-
 	const oAuthProxyServicesSetting = 'Accounts_OAuth_Proxy_services';
 
-	if (settings.get(oAuthProxyServicesSetting) === undefined)
-	{
+	if (settings.get(oAuthProxyServicesSetting) === undefined) {
 		return func(options);
 	}
 
@@ -19,7 +17,7 @@ OAuth.launchLogin = _.wrap(OAuth.launchLogin, function(func, options) {
 		options.loginUrl = options.loginUrl.replace(/(&state=)([^&]+|$)/, `$1${ redirect_uri }!$2`);
 		options.loginUrl = `${ settings.get('Accounts_OAuth_Proxy_host') }/redirect/${ encodeURIComponent(options.loginUrl) }`;
 	}
-	
+
 
 	return func(options);
 });

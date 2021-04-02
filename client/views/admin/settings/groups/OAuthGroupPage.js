@@ -65,11 +65,9 @@ function OAuthGroupPage({ _id, ...group }) {
 		});
 	};
 
-	if(!CFUtilities.IsDefaultLayout()){
+	if (!CFUtilities.isDefaultLayout()) {
 		return <GroupPage _id={_id} {...group}>
-			{sections.map((sectionName) => {
-				return <Section key={sectionName} groupId={_id} sectionName={sectionName} solo={solo} />;
-			})}
+			{sections.map((sectionName) => <Section key={sectionName} groupId={_id} sectionName={sectionName} solo={solo} />)}
 		</GroupPage>;
 	}
 

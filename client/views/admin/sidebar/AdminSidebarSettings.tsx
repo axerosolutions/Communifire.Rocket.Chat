@@ -17,7 +17,7 @@ const settingsToKeep = [
 const isDefaultView = window.location.href.indexOf('default=true') !== -1;
 
 const useSettingsGroups = (filter: string): ISetting[] => {
-	//const settings = useSettings();
+	// const settings = useSettings();
 	const settings = useSettings().filter(function(item) {
 		return settingsToKeep.filter(function(itemToKeep) {
 			return isDefaultView || itemToKeep === item._id;

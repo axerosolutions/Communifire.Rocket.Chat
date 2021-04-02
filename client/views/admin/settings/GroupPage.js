@@ -12,26 +12,23 @@ import { Section } from './Section';
 import { CFUtilities } from '../../../../imports/cf/utilities';
 
 function GroupPage({ children, headerButtons, _id, i18nLabel, i18nDescription }) {
-	if(!CFUtilities.IsDefaultLayout() && _id === 'OAuth')
-	{
+	if (!CFUtilities.isDefaultLayout() && _id === 'OAuth') {
 		// Do not allow other OAuth apps to render on OAuth section (/admin/OAuth)
-		if(children)
-		{
-			let childrenModified = new Array();
+		if (children) {
+			const childrenModified = [];
 
-			for (var i = 0; i < children.length; i++) {
-				var item = children[i];
+			for (let i = 0; i < children.length; i++) {
+				const item = children[i];
 
-				if(item.key == 'Custom OAuth: Communifire')
-				{
+				if (item.key === 'Custom OAuth: Communifire') {
 					childrenModified.push(item);
 					break;
 				}
 			}
 
-			children = childrenModified; 
+			children = childrenModified;
 		}
-	} 
+	}
 
 	const changedEditableSettings = useEditableSettings(useMemo(() => ({
 		group: _id,

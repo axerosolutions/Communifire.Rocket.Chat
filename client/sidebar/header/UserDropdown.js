@@ -61,7 +61,7 @@ const UserDropdown = ({ user, onClose }) => {
 	} = user;
 
 	const useRealName = useSetting('UI_Use_Real_Name');
-	//const communityUrl = useSetting('Community_Url');
+	// const communityUrl = useSetting('Community_Url');
 	const showAdmin = useAtLeastOnePermission(ADMIN_PERMISSIONS);
 
 
@@ -99,12 +99,11 @@ const UserDropdown = ({ user, onClose }) => {
 
 			popover.close();
 
-			let a= document.createElement('a');
-			a.target= '_blank';
-			a.href= settings.get('Community_Url')
+			const a = document.createElement('a');
+			a.target = '_blank';
+			a.href = settings.get('Community_Url');
 			a.click();
-		}
-		else{
+		} else {
 			accountRoute.push({});
 			popover.close();
 		}

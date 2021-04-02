@@ -9,7 +9,6 @@ import { useSetting } from '../../contexts/SettingsContext';
 import { UserStatus } from '../../components/UserStatus';
 import { createTemplateForComponent } from '../../reactAdapters';
 import UserAvatar from '../../components/avatar/UserAvatar';
-import { settings } from '../../../app/settings';
 
 const UserDropdown = createTemplateForComponent('UserDropdown', () => import('./UserDropdown'));
 

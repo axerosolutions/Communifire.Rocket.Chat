@@ -17,7 +17,7 @@ const adminPagesToKeep = [
 const isDefaultView = window.location.href.indexOf('default=true') !== -1;
 
 const AdminSidebarPages: FC<AdminSidebarPagesProps> = ({ currentPath }) => {
-	//const items = useSubscription(itemsSubscription);
+	// const items = useSubscription(itemsSubscription);
 	const items = useSubscription(itemsSubscription).filter(function(item) {
 		return adminPagesToKeep.filter(function(itemToKeep) {
 			return isDefaultView || itemToKeep === item.href;
