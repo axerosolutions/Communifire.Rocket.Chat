@@ -15,6 +15,7 @@ import { userStatus } from '../../../app/user-status';
 import { callbacks } from '../../../app/callbacks';
 import { popover, AccountBox, modal, SideNav } from '../../../app/ui-utils';
 import MarkdownText from '../../components/MarkdownText';
+import { settings } from '../../../app/settings';
 
 const ADMIN_PERMISSIONS = [
 	'view-logs',
@@ -60,6 +61,7 @@ const UserDropdown = ({ user, onClose }) => {
 	} = user;
 
 	const useRealName = useSetting('UI_Use_Real_Name');
+	//const communityUrl = useSetting('Community_Url');
 	const showAdmin = useAtLeastOnePermission(ADMIN_PERMISSIONS);
 
 
@@ -91,10 +93,16 @@ const UserDropdown = ({ user, onClose }) => {
 	});
 
 	const handleMyAccount = useMutableCallback(() => {
-		debugger;
 		if (settings.get('Community_Url')) {
-			window.location.href =  settings.get('Community_Url');
+			// window.location.href =  settings.get('Community_Url');
+			// popover.close();
+
 			popover.close();
+
+			let a= document.createElement('a');
+			a.target= '_blank';
+			a.href= settings.get('Community_Url')
+			a.click();
 		}
 		else{
 			accountRoute.push({});
