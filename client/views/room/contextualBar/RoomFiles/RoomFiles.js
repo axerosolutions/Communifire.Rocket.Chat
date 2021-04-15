@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useMemo } from 'react';
-import { useMutableCallback, useLocalStorage, useUniqueId, useAutoFocus } from '@rocket.chat/fuselage-hooks';
+import { useMutableCallback, useDebouncedValue, useLocalStorage, useUniqueId, useAutoFocus } from '@rocket.chat/fuselage-hooks';
 import {
 	Box,
 	Icon,
@@ -29,7 +29,11 @@ import ScrollableContentWrapper from '../../../../components/ScrollableContentWr
 const Row = React.memo(({ item, data, index }) => {
 	const { userId, onClickDelete, isDeletionAllowed } = data;
 
-	return item && <RoomFiles.Item
+	if (!item) {
+		return <RoomFiles.Option.Skeleton/>;
+	}
+
+	return <RoomFiles.Item
 		index={index}
 		_id={item._id}
 		name={item.name}
@@ -79,6 +83,7 @@ export const RoomFiles = function RoomFiles({
 	const searchId = useUniqueId();
 
 	const itemData = createItemData(onClickDelete, isDeletionAllowed);
+	const lm = useMutableCallback((start) => !loading && loadMoreItems(start));
 
 	return (
 		<>
@@ -106,11 +111,11 @@ export const RoomFiles = function RoomFiles({
 				{loading && <Box p='x12'><Throbber size='x12' /></Box>}
 				{!loading && filesItems.length <= 0 && <Box p='x12'>{t('No_results_found')}</Box>}
 
-				<Box w='full' h='full' flexShrink={1} overflow='hidden'>
-					<Virtuoso
+				<Box w='full' h='full' overflow='hidden' flexShrink={1}>
+					{!loading && filesItems.length > 0 && <Virtuoso
 						style={{ height: '100%', width: '100%' }}
 						totalCount={total}
-						endReached={ loading ? () => {} : (start) => loadMoreItems(start, Math.min(50, total - start))}
+						endReached={lm}
 						overscan={50}
 						data={filesItems}
 						components={{ Scroller: ScrollableContentWrapper }}
@@ -119,7 +124,7 @@ export const RoomFiles = function RoomFiles({
 							index={index}
 							item={data}
 						/>}
-					/>
+					/>}
 				</Box>
 			</VerticalBar.Content>
 		</>
@@ -140,11 +145,13 @@ export default ({ rid }) => {
 	const [type, setType] = useLocalStorage('file-list-type', 'all');
 	const [text, setText] = useState('');
 
+	const debouncedText = useDebouncedValue(text, 800);
+
 	const handleTextChange = useCallback((event) => {
 		setText(event.currentTarget.value);
 	}, []);
 
-	const { filesList, loadMoreItems } = useFilesList(useMemo(() => ({ rid, type, text }), [rid, type, text]));
+	const { filesList, loadMoreItems } = useFilesList(useMemo(() => ({ rid, type, text: debouncedText }), [rid, type, debouncedText]));
 	const { phase, items: filesItems, itemCount: totalItemCount } = useRecordList(filesList);
 
 	const handleDelete = useMutableCallback((_id) => {

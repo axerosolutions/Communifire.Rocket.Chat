@@ -9,6 +9,7 @@ import { useUserRoom, useUserId } from '../../../../../contexts/UserContext';
 import { useScrollableMessageList } from '../../../../../hooks/lists/useScrollableMessageList';
 import { useStreamUpdatesForMessageList } from '../../../../../hooks/lists/useStreamUpdatesForMessageList';
 import { getConfig } from '../../../../../../app/ui-utils/client/config';
+import { useComponentDidUpdate } from '../../../../../hooks/useComponentDidUpdate';
 
 export const useFilesList = (
 	options: FilesListOptions,
@@ -17,16 +18,21 @@ export const useFilesList = (
 		initialItemCount: number;
 		loadMoreItems: (start: number, end: number) => void;
 	} => {
-	const [filesList] = useState(() => new FilesList(options));
+	const  [filesList, setFilesList] = useState(() => new FilesList(options));
+	const reload = useCallback(() => setFilesList(new FilesList(options)), []);
 
 	const room = useUserRoom(options.rid);
 	const uid = useUserId();
 
-	useEffect(() => {
-		if (filesList.options !== options) {
-			filesList.updateFilters(options);
-		}
-	}, [filesList, options]);
+	// useEffect(() => {
+	// 	if (filesList.options !== options) {
+	// 		filesList.updateFilters(options);
+	// 	}
+	// }, [filesList, options]);
+
+	useComponentDidUpdate(() => {
+		options && reload();
+	}, [options, reload]);
 
 	const roomTypes = {
 		c: 'channels.files',
