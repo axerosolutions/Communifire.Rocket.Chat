@@ -371,6 +371,11 @@ export const FileUpload = {
 			return file;
 		}
 
+		// Avoid changing EXE to DLL
+		if (file.type === 'application/x-msdownload' && new RegExp(`\\.exe$`, 'i').test(file.name)) {
+			return file;
+		}
+
 		// This file type can be pretty much anything, so it's better if we don't mess with the file extension
 		if (file.type !== 'application/octet-stream') {
 			const ext = mime.extension(file.type);
