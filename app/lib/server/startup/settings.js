@@ -833,7 +833,7 @@ settings.addGroup('General', function() {
 		type: 'string',
 		public: true,
 	});
-	this.add('Unread_Count', 'user_and_group_mentions_only', {
+	this.add('Unread_Count', 'all_messages', {
 		type: 'select',
 		values: [
 			{
