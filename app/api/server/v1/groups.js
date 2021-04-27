@@ -254,7 +254,7 @@ API.v1.addRoute('groups.delete', { authRequired: true }, {
 	},
 });
 
-API.v1.addRoute('groups.files', { authRequired: true, rateLimiterOptions: {numRequestsAllowed: 120, intervalTimeInMS: 60000} }, {
+API.v1.addRoute('groups.files', { authRequired: true, rateLimiterOptions: { numRequestsAllowed: 120, intervalTimeInMS: 60000 } }, {
 	get() {
 		const findResult = findPrivateGroupByIdOrName({ params: this.requestParams(), userId: this.userId, checkedArchived: false });
 		const addUserObjectToEveryObject = (file) => {

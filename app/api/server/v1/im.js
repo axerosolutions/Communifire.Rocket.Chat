@@ -116,7 +116,7 @@ API.v1.addRoute(['dm.counters', 'im.counters'], { authRequired: true }, {
 	},
 });
 
-API.v1.addRoute(['dm.files', 'im.files'], { authRequired: true, rateLimiterOptions: {numRequestsAllowed: 120, intervalTimeInMS: 60000} }, {
+API.v1.addRoute(['dm.files', 'im.files'], { authRequired: true, rateLimiterOptions: { numRequestsAllowed: 120, intervalTimeInMS: 60000 } }, {
 	get() {
 		const findResult = findDirectMessageRoom(this.requestParams(), this.user);
 		const addUserObjectToEveryObject = (file) => {
