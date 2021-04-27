@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 
 import {
 	FilesList,
@@ -18,7 +18,7 @@ export const useFilesList = (
 		initialItemCount: number;
 		loadMoreItems: (start: number, end: number) => void;
 	} => {
-	const  [filesList, setFilesList] = useState(() => new FilesList(options));
+	const [filesList, setFilesList] = useState(() => new FilesList(options));
 	const reload = useCallback(() => setFilesList(new FilesList(options)), []);
 
 	const room = useUserRoom(options.rid);
