@@ -372,7 +372,7 @@ export const FileUpload = {
 		}
 
 		// Avoid changing EXE to DLL
-		if (file.type === 'application/x-msdownload' && new RegExp(`\\.exe$`, 'i').test(file.name)) {
+		if (file.type === 'application/x-msdownload' && new RegExp('\\.exe$', 'i').test(file.name)) {
 			return file;
 		}
 
