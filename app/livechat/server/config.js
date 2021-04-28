@@ -11,7 +11,7 @@ Meteor.startup(function() {
 		public: true,
 	});
 
-	settings.add('Livechat_title', 'Rocket.Chat', {
+	settings.add('Livechat_title', 'Communifire', {
 		type: 'string',
 		group: 'Omnichannel',
 		section: 'Livechat',

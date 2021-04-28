@@ -260,7 +260,7 @@ export default class RocketAdapter {
 	}
 
 	addChannel(slackChannelID, hasRetried = false) {
-		logger.rocket.debug('Adding Rocket.Chat channel from Slack', slackChannelID);
+		logger.rocket.debug('Adding Communifire channel from Slack', slackChannelID);
 		let addedRoom;
 
 		this.slackAdapters.forEach((slack) => {
@@ -341,7 +341,7 @@ export default class RocketAdapter {
 	}
 
 	addUser(slackUserID) {
-		logger.rocket.debug('Adding Rocket.Chat user from Slack', slackUserID);
+		logger.rocket.debug('Adding Communifire user from Slack', slackUserID);
 		let addedUser;
 		this.slackAdapters.forEach((slack) => {
 			if (addedUser) {
@@ -495,7 +495,7 @@ export default class RocketAdapter {
 					}
 				}, 500);
 			} else {
-				logger.rocket.debug('Send message to Rocket.Chat');
+				logger.rocket.debug('Send message to Communifire');
 				sendMessage(rocketUser, rocketMsgObj, rocketChannel, true);
 			}
 		}

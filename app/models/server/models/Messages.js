@@ -785,6 +785,25 @@ export class Messages extends Base {
 		return record;
 	}
 
+	// UPDATE
+	updateJitsiMessages(roomId, message, user) {
+		const query = {
+			t: 'jitsi_comm_call_started',
+			rid: roomId,
+			'u._id': user._id,
+		};
+
+		const update = {
+			$set: {
+				t: 'jitsi_comm_call_ended',
+				msg: message,
+				actionLinks: [],
+				attachments: [{ text: message }],
+			},
+		};
+		return this.update(query, update, { multi: true	});
+	}
+
 	createNavigationHistoryWithRoomIdMessageAndUser(roomId, message, user, extraData) {
 		const type = 'livechat_navigation_history';
 		const record = {

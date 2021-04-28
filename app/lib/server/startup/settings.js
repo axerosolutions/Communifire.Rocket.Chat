@@ -808,7 +808,12 @@ settings.addGroup('General', function() {
 		i18nDescription: 'Site_Url_Description',
 		public: true,
 	});
-	this.add('Site_Name', 'Rocket.Chat', {
+	this.add('Community_Url', 'https://example.com', {
+		type: 'string',
+		i18nDescription: 'Community_Url_Description',
+		public: true,
+	});
+	this.add('Site_Name', 'Communifire', {
 		type: 'string',
 		public: true,
 		wizard: {
@@ -848,11 +853,11 @@ settings.addGroup('General', function() {
 		type: 'boolean',
 		public: true,
 	});
-	this.add('First_Channel_After_Login', '', {
+	this.add('First_Channel_After_Login', 'general', {
 		type: 'string',
 		public: true,
 	});
-	this.add('Unread_Count', 'user_and_group_mentions_only', {
+	this.add('Unread_Count', 'all_messages', {
 		type: 'select',
 		values: [
 			{
@@ -1357,38 +1362,38 @@ settings.addGroup('Push', function() {
 
 settings.addGroup('Layout', function() {
 	this.section('Content', function() {
-		this.add('Layout_Home_Title', 'Home', {
+		this.add('Layout_Home_Title', '  ', {
 			type: 'string',
 			public: true,
 		});
-		this.add('Layout_Show_Home_Button', true, {
+		this.add('Layout_Show_Home_Button', false, {
 			type: 'boolean',
 			public: true,
 		});
-		this.add('Layout_Home_Body', '<p>Welcome to Rocket.Chat!</p>\n<p>The Rocket.Chat desktops apps for Windows, macOS and Linux are available to download <a title="Rocket.Chat desktop apps" href="https://rocket.chat/download" target="_blank" rel="noopener">here</a>.</p><p>The native mobile app, Rocket.Chat,\n  for Android and iOS is available from <a title="Rocket.Chat on Google Play" href="https://play.google.com/store/apps/details?id=chat.rocket.android" target="_blank" rel="noopener">Google Play</a> and the <a title="Rocket.Chat on the App Store" href="https://itunes.apple.com/app/rocket-chat/id1148741252" target="_blank" rel="noopener">App Store</a>.</p>\n<p>For further help, please consult the <a title="Rocket.Chat Documentation" href="https://rocket.chat/docs/" target="_blank" rel="noopener">documentation</a>.</p>\n<p>If you\'re an admin, feel free to change this content via <strong>Administration</strong> &rarr; <strong>Layout</strong> &rarr; <strong>Home Body</strong>. Or clicking <a title="Home Body Layout" href="/admin/Layout">here</a>.</p>', {
+		this.add('Layout_Home_Body', '', {
 			type: 'code',
 			code: 'text/html',
 			multiline: true,
 			public: true,
 		});
-		this.add('Layout_Terms_of_Service', 'Terms of Service <br> Go to APP SETTINGS &rarr; Layout to customize this page.', {
+		this.add('Layout_Terms_of_Service', '', {
 			type: 'code',
 			code: 'text/html',
 			multiline: true,
 			public: true,
 		});
-		this.add('Layout_Login_Terms', 'By proceeding you are agreeing to our <a href="terms-of-service">Terms of Service</a>, <a href="privacy-policy">Privacy Policy</a> and <a href="legal-notice">Legal Notice</a>.', {
+		this.add('Layout_Login_Terms', '', {
 			type: 'string',
 			multiline: true,
 			public: true,
 		});
-		this.add('Layout_Privacy_Policy', 'Privacy Policy <br> Go to APP SETTINGS &rarr; Layout to customize this page.', {
+		this.add('Layout_Privacy_Policy', '', {
 			type: 'code',
 			code: 'text/html',
 			multiline: true,
 			public: true,
 		});
-		this.add('Layout_Legal_Notice', 'Legal Notice <br> Go to APP SETTINGS -> Layout to customize this page.', {
+		this.add('Layout_Legal_Notice', '', {
 			type: 'code',
 			code: 'text/html',
 			multiline: true,
@@ -1419,7 +1424,7 @@ settings.addGroup('Layout', function() {
 		});
 	});
 	return this.section('User_Interface', function() {
-		this.add('UI_DisplayRoles', true, {
+		this.add('UI_DisplayRoles', false, {
 			type: 'boolean',
 			public: true,
 		});
@@ -1427,11 +1432,11 @@ settings.addGroup('Layout', function() {
 			type: 'boolean',
 			public: false,
 		});
-		this.add('UI_Use_Name_Avatar', false, {
+		this.add('UI_Use_Name_Avatar', true, {
 			type: 'boolean',
 			public: true,
 		});
-		this.add('UI_Use_Real_Name', false, {
+		this.add('UI_Use_Real_Name', true, {
 			type: 'boolean',
 			public: true,
 		});

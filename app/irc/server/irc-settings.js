@@ -41,7 +41,7 @@ Meteor.startup(function() {
 			i18nDescription: 'IRC_Name',
 		});
 
-		this.add('IRC_Description', 'Rocket.Chat IRC Bridge', {
+		this.add('IRC_Description', 'Communifire IRC Bridge', {
 			type: 'string',
 			i18nLabel: 'Description',
 			i18nDescription: 'IRC_Description',

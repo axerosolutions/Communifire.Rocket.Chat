@@ -1,6 +1,7 @@
 import { Button, ButtonGroup, Icon } from '@rocket.chat/fuselage';
 import React from 'react';
 
+import { CFUtilities } from '../../../../imports/cf/utilities';
 import Page from '../../../components/Page';
 import VerticalBar from '../../../components/VerticalBar';
 import { useRoute, useCurrentRoute } from '../../../contexts/RouterContext';
@@ -30,7 +31,7 @@ function UsersPage() {
 
 	const [, { context, id }] = useCurrentRoute();
 
-	return (
+	const pageStructure = CFUtilities.isDefaultLayout() ? (
 		<Page flexDirection='row'>
 			<Page>
 				<Page.Header title={t('Users')}>
@@ -64,7 +65,34 @@ function UsersPage() {
 				</VerticalBar>
 			)}
 		</Page>
+	) : (
+		<Page flexDirection='row'>
+			<Page>
+				<Page.Header title={t('Users')}></Page.Header>
+				<Page.Content>
+					<UsersTable />
+				</Page.Content>
+			</Page>
+			{context && (
+				<VerticalBar>
+					<VerticalBar.Header>
+						{context === 'info' && t('User_Info')}
+						{context === 'edit' && t('Edit_User')}
+						{context === 'new' && t('Add_User')}
+						{context === 'invite' && t('Invite_Users')}
+						<VerticalBar.Close onClick={handleVerticalBarCloseButtonClick} />
+					</VerticalBar.Header>
+
+					{context === 'info' && <UserInfoWithData uid={id} />}
+					{context === 'edit' && <EditUserWithData uid={id} />}
+					{context === 'new' && <AddUser />}
+					{context === 'invite' && <InviteUsers />}
+				</VerticalBar>
+			)}
+		</Page>
 	);
+
+	return pageStructure;
 }
 
 export default UsersPage;

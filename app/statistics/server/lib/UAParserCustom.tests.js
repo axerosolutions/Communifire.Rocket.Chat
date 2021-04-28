@@ -5,7 +5,7 @@ import { expect } from 'chai';
 import { UAParserMobile, UAParserDesktop } from './UAParserCustom';
 
 const UAMobile = 'RC Mobile; iOS 12.2; v3.4.0 (250)';
-const UADesktop = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Rocket.Chat/2.15.2 Chrome/69.0.3497.128 Electron/4.1.4 Safari/537.36';
+const UADesktop = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Communifire/2.15.2 Chrome/69.0.3497.128 Electron/4.1.4 Safari/537.36';
 const UAChrome = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/74.0.3729.131 Safari/537.36';
 
 describe('UAParserCustom', () => {
@@ -59,7 +59,7 @@ describe('UAParserCustom', () => {
 					type: 'desktop-app',
 				},
 				app: {
-					name: 'Rocket.Chat',
+					name: 'Communifire',
 					version: '2.15.2',
 				},
 				os: {

@@ -273,7 +273,7 @@ API.v1.addRoute('channels.delete', { authRequired: true }, {
 	},
 });
 
-API.v1.addRoute('channels.files', { authRequired: true }, {
+API.v1.addRoute('channels.files', { authRequired: true, rateLimiterOptions: { numRequestsAllowed: 120, intervalTimeInMS: 60000 } }, {
 	get() {
 		const findResult = findChannelByIdOrName({ params: this.requestParams(), checkedArchived: false });
 		const addUserObjectToEveryObject = (file) => {

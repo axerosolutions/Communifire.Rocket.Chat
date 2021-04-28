@@ -15,3 +15,5 @@ import './login/services';
 import './login/social';
 import './username/layout';
 import './username/username';
+import './login/loginWithCommuifire.html';
+import './login/loginWithCommuifire';

@@ -4,7 +4,7 @@ import { settings } from '../../settings';
 
 Meteor.startup(function() {
 	settings.addGroup('Video Conference', function() {
-		this.section('BigBlueButton', function() {
+		/* this.section('BigBlueButton', function() {
 			this.add('bigbluebutton_Enabled', false, {
 				type: 'boolean',
 				i18nLabel: 'Enabled',
@@ -70,18 +70,18 @@ Meteor.startup(function() {
 					value: true,
 				},
 				public: true,
-			});
-		});
+			})
+		});*/
 
 		this.section('Jitsi', function() {
-			this.add('Jitsi_Enabled', false, {
+			this.add('Jitsi_Enabled', true, {
 				type: 'boolean',
 				i18nLabel: 'Enabled',
-				alert: 'This Feature is currently in beta! Please report bugs to github.com/RocketChat/Rocket.Chat/issues',
+				// alert: 'This Feature is currently in beta! Please report bugs to github.com/RocketChat/Rocket.Chat/issues',
 				public: true,
 			});
 
-			this.add('Jitsi_Domain', 'meet.jit.si', {
+			this.add('Jitsi_Domain', 'meet.communifire.com', {
 				type: 'string',
 				enableQuery: {
 					_id: 'Jitsi_Enabled',
@@ -91,7 +91,7 @@ Meteor.startup(function() {
 				public: true,
 			});
 
-			this.add('Jitsi_URL_Room_Prefix', 'RocketChat', {
+			this.add('Jitsi_URL_Room_Prefix', '', {
 				type: 'string',
 				enableQuery: {
 					_id: 'Jitsi_Enabled',
@@ -107,11 +107,12 @@ Meteor.startup(function() {
 					_id: 'Jitsi_Enabled',
 					value: true,
 				},
-				i18nLabel: 'URL_room_suffix',
+				i18nLabel: 'URL_room_hash',
+				i18nDescription: 'URL_room_hash_description',
 				public: true,
 			});
 
-			this.add('Jitsi_URL_Room_Hash', true, {
+			this.add('Jitsi_URL_Room_Hash', false, {
 				type: 'boolean',
 				enableQuery: {
 					_id: 'Jitsi_Enabled',
@@ -132,7 +133,7 @@ Meteor.startup(function() {
 				public: true,
 			});
 
-			this.add('Jitsi_Open_New_Window', false, {
+			this.add('Jitsi_Open_New_Window', true, {
 				type: 'boolean',
 				enableQuery: {
 					_id: 'Jitsi_Enabled',
@@ -142,7 +143,7 @@ Meteor.startup(function() {
 				public: true,
 			});
 
-			this.add('Jitsi_Enable_Channels', false, {
+			this.add('Jitsi_Enable_Channels', true, {
 				type: 'boolean',
 				enableQuery: {
 					_id: 'Jitsi_Enabled',

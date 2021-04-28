@@ -23,7 +23,7 @@ Meteor.methods({
 			throw new Meteor.Error('error-invalid-account', 'Invalid WebDAV Account', { method: 'uploadFileToWebdav' });
 		}
 
-		const uploadFolder = 'Rocket.Chat Uploads/';
+		const uploadFolder = 'Communifire Uploads/';
 		const buffer = Buffer.from(fileData);
 
 		try {

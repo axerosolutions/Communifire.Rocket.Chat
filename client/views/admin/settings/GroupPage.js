@@ -2,6 +2,7 @@ import { Accordion, Box, Button, ButtonGroup } from '@rocket.chat/fuselage';
 import { useMutableCallback } from '@rocket.chat/fuselage-hooks';
 import React, { useMemo, memo } from 'react';
 
+import { CFUtilities } from '../../../../imports/cf/utilities';
 import Page from '../../../components/Page';
 import {
 	useEditableSettingsDispatch,
@@ -14,6 +15,24 @@ import { useUser } from '../../../contexts/UserContext';
 import GroupPageSkeleton from './GroupPageSkeleton';
 
 function GroupPage({ children, headerButtons, _id, i18nLabel, i18nDescription }) {
+	if (!CFUtilities.isDefaultLayout() && _id === 'OAuth') {
+		// Do not allow other OAuth apps to render on OAuth section (/admin/OAuth)
+		if (children) {
+			const childrenModified = [];
+
+			for (let i = 0; i < children.length; i++) {
+				const item = children[i];
+
+				if (item.key === 'Custom OAuth: Communifire') {
+					childrenModified.push(item);
+					break;
+				}
+			}
+
+			children = childrenModified;
+		}
+	}
+
 	const changedEditableSettings = useEditableSettings(
 		useMemo(
 			() => ({

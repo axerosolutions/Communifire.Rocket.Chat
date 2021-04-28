@@ -5,6 +5,8 @@ import { Tracker } from 'meteor/tracker';
 import { lazy } from 'react';
 import toastr from 'toastr';
 
+import { callbacks } from '../../app/callbacks/client';
+import { settings } from '../../app/settings/client';
 import { KonchatNotification } from '../../app/ui/client';
 import { handleError } from '../../app/utils/client';
 import { IUser } from '../../definition/IUser';
@@ -43,6 +45,38 @@ FlowRouter.route('/login', {
 
 	action() {
 		FlowRouter.go('home');
+	},
+});
+
+FlowRouter.route('/logout', {
+	name: 'logout',
+
+	action() {
+		const user = Meteor.user();
+		Meteor.logout(() => {
+			callbacks.run('afterLogoutCleanUp', user);
+			Meteor.call('logoutCleanUp', user);
+			if (settings.get('Community_Url')) {
+				window.location = settings.get('Community_Url');
+			} else {
+				return FlowRouter.go('home');
+			}
+		});
+	},
+});
+
+FlowRouter.route('/communityLogout', {
+	name: 'communityLogout',
+
+	action() {
+		const user = Meteor.user();
+		Meteor.logout(() => {
+			callbacks.run('afterLogoutCleanUp', user);
+			Meteor.call('logoutCleanUp', user);
+			if (settings.get('Community_Url')) {
+				window.location = (`${settings.get('Community_Url')}/logout` as unknown) as Location;
+			}
+		});
 	},
 });
 

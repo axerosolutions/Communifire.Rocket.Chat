@@ -2,6 +2,7 @@ import { Button } from '@rocket.chat/fuselage';
 import React, { memo } from 'react';
 import s from 'underscore.string';
 
+import { CFUtilities } from '../../../../../imports/cf/utilities';
 import { useEditableSettingsGroupSections } from '../../../../contexts/EditableSettingsContext';
 import { useModal } from '../../../../contexts/ModalContext';
 import { useAbsoluteUrl, useMethod } from '../../../../contexts/ServerContext';
@@ -67,6 +68,16 @@ function OAuthGroupPage({ _id, ...group }) {
 			},
 		);
 	};
+
+	if (!CFUtilities.isDefaultLayout()) {
+		return (
+			<GroupPage _id={_id} {...group}>
+				{sections.map((sectionName) => (
+					<Section key={sectionName} groupId={_id} sectionName={sectionName} solo={solo} />
+				))}
+			</GroupPage>
+		);
+	}
 
 	return (
 		<GroupPage

@@ -76,7 +76,7 @@ Meteor.startup(() => {
 							+ `<meta name="theme-color" content="${ escapedValue }" />`);
 	});
 
-	settings.get('Site_Name', (key, value = 'Rocket.Chat') => {
+	settings.get('Site_Name', (key, value = 'Communifire') => {
 		const escapedValue = escapeHTML(value);
 		injectIntoHead(key,
 			`<title>${ escapedValue }</title>`

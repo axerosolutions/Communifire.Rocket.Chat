@@ -70,7 +70,7 @@ export const getRocketChatRolesByLdapRoles = (mappedRoles, ldapUserRoles) => {
 	const getRocketChatMappedRoles = (acc, role) => acc.concat(mappedRoles[role]);
 	const removeRepeatedRoles = (acc, role) => (acc.includes(role) ? acc : acc.concat(role));
 	if (unmappedLdapRoles.length) {
-		logger.error(`The following LDAP roles is/are not mapped in Rocket.Chat: "${ unmappedLdapRoles.join(', ') }". Because it, we set the default LDAP role.`);
+		logger.error(`The following LDAP roles is/are not mapped in Communifire: "${ unmappedLdapRoles.join(', ') }". Because it, we set the default LDAP role.`);
 		return [settings.get('LDAP_Default_Role_To_User')];
 	}
 	return ldapUserRoles

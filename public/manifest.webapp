@@ -1,5 +1,5 @@
 {
-    "name": "RocketChat",
+    "name": "Communifire",
     "description": "The Ultimate Open Source WebChat Platform",
     "launch_path": "/",
     "icons": {
@@ -7,7 +7,7 @@
         "512": "/assets/favicon_512.png"
     },
     "developer": {
-        "name": "Rocket.Chat",
+        "name": "Communifire",
         "url": "https://rocket.chat/"
     },
     "fullscreen": "true",

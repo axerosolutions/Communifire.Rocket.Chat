@@ -11,7 +11,7 @@ const defaults = {
 	generateUsername: false,
 	manifestURI: Meteor.absoluteUrl('_blockstack/manifest'),
 	redirectURI: Meteor.absoluteUrl('_blockstack/validate'),
-	authDescription: 'Rocket.Chat login',
+	authDescription: 'Communifire login',
 	buttonLabelText: 'Blockstack',
 	buttonColor: '#271132',
 	buttonLabelColor: '#ffffff',

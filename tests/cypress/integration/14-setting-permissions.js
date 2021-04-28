@@ -17,7 +17,7 @@ function logoutRocketchat() {
 	sideNav.logout.click();
 }
 
-describe.skip('[Rocket.Chat Settings based permissions]', function() {
+describe.skip('[Communifire Settings based permissions]', function() {
 	const newTitle = 'Testtitle';
 
 	describe('Give User Permissions', function() {

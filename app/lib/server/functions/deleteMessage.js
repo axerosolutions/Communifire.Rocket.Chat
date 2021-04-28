@@ -16,7 +16,7 @@ export const deleteMessage = function(message, user) {
 	if (deletedMsg && Apps && Apps.isLoaded()) {
 		const prevent = Promise.await(Apps.getBridges().getListenerBridge().messageEvent('IPreMessageDeletePrevent', deletedMsg));
 		if (prevent) {
-			throw new Meteor.Error('error-app-prevented-deleting', 'A Rocket.Chat App prevented the message deleting.');
+			throw new Meteor.Error('error-app-prevented-deleting', 'A Communifire App prevented the message deleting.');
 		}
 	}
 

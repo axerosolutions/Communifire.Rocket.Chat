@@ -24,7 +24,7 @@ export class AppServerOrchestrator {
 	}
 
 	initialize() {
-		this._rocketchatLogger = new Logger('Rocket.Chat Apps');
+		this._rocketchatLogger = new Logger('Communifire Apps');
 		Permissions.create('manage-apps', ['admin']);
 
 		this._marketplaceUrl = 'https://marketplace.rocket.chat';

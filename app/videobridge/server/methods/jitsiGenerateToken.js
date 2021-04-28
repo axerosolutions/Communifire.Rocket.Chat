@@ -61,7 +61,7 @@ Meteor.methods({
 			iat: jws.IntDate.get('now'),
 			nbf: jws.IntDate.get('now'),
 			exp: jws.IntDate.get(`now + ${ JITSI_OPTIONS.jitsi_lifetime_token }`),
-			aud: 'RocketChat',
+			aud: 'Communifire',
 			room: jitsiLimitTokenToRoom ? jitsiRoom : '*',
 			context: '', // first empty
 		};

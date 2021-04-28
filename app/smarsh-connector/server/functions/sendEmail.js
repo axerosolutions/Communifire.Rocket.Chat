@@ -1,7 +1,7 @@
 // Expects the following details:
 // {
 // 	body: '<table>',
-// 	subject: 'Rocket.Chat, 17 Users, 24 Messages, 1 File, 799504 Minutes, in #random',
+// 	subject: 'Communifire, 17 Users, 24 Messages, 1 File, 799504 Minutes, in #random',
 //  files: ['i3nc9l3mn']
 // }
 import _ from 'underscore';

@@ -3653,7 +3653,7 @@
   "since_creation": "since %s",
   "Site_Name": "Site Name",
   "Site_Url": "Site URL",
-  "Site_Url_Description": "Example: https://chat.domain.com/",
+  "Site_Url_Description": "Example: https://chat.YourCommunifireSiteDomain.com",
   "Size": "Size",
   "Skip": "Skip",
   "Slack_Users": "Slack's Users CSV",
@@ -4485,5 +4485,8 @@
   "Your_server_link": "Your server link",
   "Your_temporary_password_is_password": "Your temporary password is <strong>[password]</strong>.",
   "Your_TOTP_has_been_reset": "Your Two Factor TOTP has been reset.",
-  "Your_workspace_is_ready": "Your workspace is ready to use 🎉"
+  "Your_workspace_is_ready": "Your workspace is ready to use 🎉",
+  "View_Community": "View Community",
+  "Community_Url": "Community URL",
+  "Community_Url_Description": "Example: https://YourCommunifireSiteDomain.com"
 }

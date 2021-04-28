@@ -5,6 +5,7 @@ import { Meteor } from 'meteor/meteor';
 import React from 'react';
 
 import { callbacks } from '../../../app/callbacks/client';
+import { settings } from '../../../app/settings/client';
 import { popover, AccountBox, modal, SideNav } from '../../../app/ui-utils/client';
 import { userStatus } from '../../../app/user-status/client';
 import MarkdownText from '../../components/MarkdownText';
@@ -54,6 +55,7 @@ const UserDropdown = ({ user, onClose }) => {
 	const { name, username, avatarETag, status, statusText } = user;
 
 	const useRealName = useSetting('UI_Use_Real_Name');
+	// const communityUrl = useSetting('Community_Url');
 	const showAdmin = useAtLeastOnePermission(ADMIN_PERMISSIONS);
 
 	const handleCustomStatus = useMutableCallback((e) => {
@@ -84,8 +86,20 @@ const UserDropdown = ({ user, onClose }) => {
 	});
 
 	const handleMyAccount = useMutableCallback(() => {
-		accountRoute.push({});
-		popover.close();
+		if (settings.get('Community_Url')) {
+			// window.location.href =  settings.get('Community_Url');
+			// popover.close();
+
+			popover.close();
+
+			const a = document.createElement('a');
+			a.target = '_blank';
+			a.href = settings.get('Community_Url');
+			a.click();
+		} else {
+			accountRoute.push({});
+			popover.close();
+		}
 	});
 
 	const handleAdmin = useMutableCallback(() => {
@@ -186,7 +200,7 @@ const UserDropdown = ({ user, onClose }) => {
 
 			<Divider mi='neg-x16' mb='x16' />
 			<div style={style}>
-				<Option icon='user' label={t('My_Account')} onClick={handleMyAccount} />
+				<Option icon='user' label={t('View_Community')} onClick={handleMyAccount} />
 				<Option icon='sign-out' label={t('Logout')} onClick={handleLogout} />
 			</div>
 		</Box>

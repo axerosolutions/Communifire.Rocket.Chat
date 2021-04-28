@@ -2,6 +2,7 @@ import type { Subscription } from 'use-subscription';
 
 type SidebarItem = {
 	i18nLabel: string;
+	href: string;
 };
 
 export const createSidebarItems = (
