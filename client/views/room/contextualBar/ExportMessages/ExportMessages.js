@@ -11,11 +11,11 @@ function ExportMessages({ rid }) {
 	const t = useTranslation();
 	const close = useTabBarClose();
 
-	const [type, setType] = useState('email');
+	const [type, setType] = useState('file');
 
 	const exportOptions = useMemo(
 		() => [
-			['email', t('Send_via_email')],
+			// ['email', t('Send_via_email')],
 			['file', t('Export_as_file')],
 		],
 		[t],
