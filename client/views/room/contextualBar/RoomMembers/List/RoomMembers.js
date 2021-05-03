@@ -142,14 +142,14 @@ const RoomMembers = ({
 
 			<VerticalBar.Footer>
 				<ButtonGroup stretch>
-					{onClickInvite && (
+					{/* {onClickInvite && (
 						<Button onClick={onClickInvite} width='50%'>
 							<Box is='span' mie='x4'>
 								<Icon name='link' size='x20' />
 							</Box>
 							{t('Invite_Link')}
 						</Button>
-					)}
+					)} */}
 					{onClickAdd && (
 						<Button onClick={onClickAdd} width='50%' primary>
 							<Box is='span' mie='x4'>
