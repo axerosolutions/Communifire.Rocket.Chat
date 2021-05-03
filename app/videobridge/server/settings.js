@@ -111,7 +111,7 @@ Meteor.startup(function() {
 				public: true,
 			});
 
-			this.add('Jitsi_URL_Room_Hash', false, {
+			this.add('Jitsi_URL_Room_Hash', true, {
 				type: 'boolean',
 				enableQuery: {
 					_id: 'Jitsi_Enabled',
