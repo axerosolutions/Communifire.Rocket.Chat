@@ -21,3 +21,17 @@ export const goToRoomById = async (rid: IRoom['_id']): Promise<void> => {
 	const room = await getRoomById(rid);
 	roomTypes.openRouteLink(room.t, room, FlowRouter.current().queryParams);
 };
+
+export const goToRoomVideoById = async (rid: IRoom['_id']): Promise<void> => {
+	if (!rid) {
+		return;
+	}
+	const subscription = ChatSubscription.findOne({ rid });
+	if (subscription) {
+		roomTypes.openRouteLinkVideo(subscription.t, subscription, FlowRouter.current().queryParams);
+		return;
+	}
+
+	const room = await getRoomById(rid);
+	roomTypes.openRouteLinkVideo(room.t, room, FlowRouter.current().queryParams);
+};

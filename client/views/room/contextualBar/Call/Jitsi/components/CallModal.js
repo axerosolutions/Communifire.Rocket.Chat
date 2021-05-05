@@ -1,4 +1,4 @@
-import { Box, Button, ButtonGroup, Icon, Modal } from '@rocket.chat/fuselage';
+import { Box, Button, ButtonGroup, Modal } from '@rocket.chat/fuselage';
 import React from 'react';
 
 import { useTranslation } from '../../../../../../contexts/TranslationContext';
@@ -13,7 +13,7 @@ export const CallModal = ({ handleYes, handleCancel }) => {
 				<Modal.Close onClick={handleCancel} />
 			</Modal.Header>
 			<Modal.Content display='flex' flexDirection='column' alignItems='center'>
-				<Icon name='modal-warning' size='x128' color='warning-500' />
+				{/* <Icon name='modal-warning' size='x128' color='warning-500' /> */}
 				<Box fontScale='s1'>{t('Start_video_call')}</Box>
 			</Modal.Content>
 			<Modal.Footer>

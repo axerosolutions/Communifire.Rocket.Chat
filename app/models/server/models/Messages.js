@@ -786,11 +786,11 @@ export class Messages extends Base {
 	}
 
 	// UPDATE
-	updateJitsiMessages(roomId, message, user) {
+	updateJitsiMessages(roomId, message) {
 		const query = {
 			t: 'jitsi_comm_call_started',
 			rid: roomId,
-			'u._id': user._id,
+			// 'u._id': user._id,
 		};
 
 		const update = {
@@ -798,7 +798,7 @@ export class Messages extends Base {
 				t: 'jitsi_comm_call_ended',
 				msg: message,
 				actionLinks: [],
-				attachments: [{ text: message }],
+				// attachments: [{ text: message }],
 			},
 		};
 		return this.update(query, update, { multi: true	});

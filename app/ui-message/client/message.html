@@ -111,7 +111,6 @@
 					{{/if}}
 				</div>
 			</div>
-
 			{{#if hasOembed}}
 				{{#each msg.urls}}
 					{{injectMessage . ../msg}}
@@ -120,10 +119,24 @@
 					{{> oembedBaseWidget}}
 				{{/each}}
 			{{/if}}
+			{{#unless jitsiType}}
 			{{#if hasAttachments}}
 				{{> reactAttachments attachments=msg.attachments file=msg.file }}
 			{{/if}}
-			
+			{{/unless}}
+			{{#if jitsi_comm_call_start}}
+				<div style="margin: 5px; padding: 8px; border: 1px solid lightgrey;">
+					<i class="icon-phone"></i>
+					{{ msg.msg }}
+				</div>
+			{{/if}}
+
+			{{#if jitsi_comm_call_ended}}
+				<div style="margin: 5px; padding: 8px; border: 1px solid lightgrey;">
+					<i class="icon-phone-squared"></i>
+					{{ msg.msg }}
+				</div>
+			{{/if}}
 
 			{{#with readReceipt}}
 				<div class="read-receipt {{readByEveryone}}">

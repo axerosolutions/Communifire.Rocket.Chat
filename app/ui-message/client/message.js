@@ -25,6 +25,9 @@ const renderBody = (msg, settings) => {
 	const isSystemMessage = MessageTypes.isSystemMessage(msg);
 	const messageType = MessageTypes.getType(msg) || {};
 
+	// console.log('<<<< MSG', msg);
+	// msg.callTime = msg.ts && msg._updatedAt ? (msg._updatedAt.getTime() - msg.ts.getTime()) / 1000 : 0;
+
 	if (messageType.render) {
 		msg = messageType.render(msg);
 	} else if (messageType.template) {
@@ -190,6 +193,30 @@ Template.message.helpers({
 	t() {
 		const { msg } = this;
 		return msg.t;
+	},
+	jitsiType() {
+		const { msg } = this;
+		if (msg.t.startsWith('jitsi')) {
+			return 'jitsi_comm_call_started';
+		}
+	},
+	jitsi_comm_call_start() {
+		const { msg } = this;
+		if (msg.t === 'jitsi_comm_call_started') {
+			return 'jitsi_comm_call_started';
+		}
+	},
+	jitsi_comm_call_start_own() {
+		const { msg, u = {} } = this;
+		if (msg.t === 'jitsi_comm_call_started' && msg.u && msg.u._id === u._id) {
+			return 'jitsi_comm_call_start_own';
+		}
+	},
+	jitsi_comm_call_ended() {
+		const { msg } = this;
+		if (msg.t === 'jitsi_comm_call_ended') {
+			return 'jitsi_comm_call_ended';
+		}
 	},
 	timestamp() {
 		const { msg } = this;

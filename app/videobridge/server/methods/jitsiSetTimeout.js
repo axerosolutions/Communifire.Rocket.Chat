@@ -36,6 +36,7 @@ Meteor.methods({
 				Rooms.setJitsiTimeout(rid, nextTimeOut);
 			}
 
+			/* <<< JLM
 			if (!jitsiTimeout || currentTime > jitsiTimeout) {
 				metrics.messagesSent.inc(); // TODO This line needs to be moved to it's proper place. See the comments on: https://github.com/RocketChat/Rocket.Chat/pull/5736
 
@@ -47,6 +48,7 @@ Meteor.methods({
 				message.msg = TAPi18n.__('Started_a_video_call');
 				callbacks.run('afterSaveMessage', message, { ...room, jitsiTimeout: currentTime + CONSTANTS.TIMEOUT });
 			}
+ 			*/
 
 			return jitsiTimeout || nextTimeOut;
 		} catch (error) {
@@ -63,14 +65,14 @@ Meteor.methods({
 
 		const room = Rooms.findOneById(rid);
 
-		const currentTime = new Date().getTime();
+		const actionLinks = room.t === 'd' ? [] : [{ icon: 'icon-videocam', label: TAPi18n.__('Join'), method_id: 'joinJitsiCall', params: '' }];
+		const text = room.t === 'd' ? TAPi18n.__('Calling...') : TAPi18n.__('Started_a_video_call');
 
-		const message = Messages.createWithTypeRoomIdMessageAndUser('jitsi_comm_call_started', rid, 'Started a Video Call', Meteor.user(), {
-			actionLinks: [
-				//  { icon: 'icon-cancel', label: TAPi18n.__('Decline'), method_id: 'joinJitsiCancel', params: '' },
-				{ icon: 'icon-videocam', label: TAPi18n.__('Join'), method_id: 'joinJitsiCall', params: '' },
-			],
-			attachments: [{ text: 'Calling You...' }],
+		const currentTime = new Date().getTime();
+		metrics.messagesSent.inc(); // TODO This line needs to be moved to it's proper place. See the comments on: https://github.com/RocketChat/Rocket.Chat/pull/5736
+		const message = Messages.createWithTypeRoomIdMessageAndUser('jitsi_comm_call_started', rid, text, Meteor.user(), {
+			actionLinks,
+			// attachments: [{ text }],
 		});
 		message.msg = TAPi18n.__('Started_a_video_call');
 		message.mentions = [
@@ -82,10 +84,34 @@ Meteor.methods({
 		callbacks.run('afterSaveMessage', message, { ...room, jitsiTimeout: currentTime + CONSTANTS.TIMEOUT });
 	},
 
-	'jitsi:comm_close_call': (rid) => {
+	'jitsi:comm_close_call': (rid, isHost) => {
 		if (!Meteor.userId()) {
 			throw new Meteor.Error('error-invalid-user', 'Invalid user', { method: 'jitsi:close' });
 		}
-		Messages.updateJitsiMessages(rid, 'Call Ended', Meteor.user(), { ended_at: new Date().getTime() });
+		const uid = Meteor.userId();
+		const user = Users.findOneById(uid, {
+			fields: {
+				username: 1,
+				type: 1,
+			},
+		});
+
+		if (isHost) {
+			// const room = canSendMessage(rid, { uid, username: user.username, type: user.type });
+			// if (room.t === 'd') {
+			Rooms.setJitsiTimeout(rid, 0);
+			// }
+			Messages.updateJitsiMessages(rid, TAPi18n.__('This call has ended'), { ended_at: new Date().getTime() });
+		} else {
+			Meteor.setTimeout(() => {
+				const room = canSendMessage(rid, { uid, username: user.username, type: user.type });
+				const currentTime = new Date().getTime();
+				const jitsiTimeout = new Date((room && room.jitsiTimeout) || currentTime).getTime();
+				const live = jitsiTimeout > currentTime || null;
+				if (!live) {
+					Messages.updateJitsiMessages(rid, TAPi18n.__('This call has ended'), { ended_at: new Date().getTime() });
+				}
+			}, CONSTANTS.TIMEOUT + CONSTANTS.DEBOUNCE);
+		}
 	},
 });

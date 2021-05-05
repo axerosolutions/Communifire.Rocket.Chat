@@ -1,7 +1,11 @@
 import { Skeleton } from '@rocket.chat/fuselage';
 import { useMutableCallback, useSafely } from '@rocket.chat/fuselage-hooks';
+import { Meteor } from 'meteor/meteor';
+import { Session } from 'meteor/session';
 import React, { useRef, useEffect, useState, useMemo, useLayoutEffect, memo } from 'react';
 
+import { CustomSounds } from '../../../../../../app/custom-sounds/client';
+import { Notifications } from '../../../../../../app/notifications/client';
 import { HEARTBEAT, TIMEOUT, DEBOUNCE } from '../../../../../../app/videobridge/constants';
 import { useConnectionStatus } from '../../../../../contexts/ConnectionStatusContext';
 import { useSetModal } from '../../../../../contexts/ModalContext';
@@ -46,10 +50,16 @@ const CallJitsWithData = ({ rid }) => {
 		handleClose();
 	});
 
+	const handleStart = useMutableCallback(() => {
+		if (Session.get('JitsiRinging')) {
+			CustomSounds.play('ring', { volume: 0.5, loop: true });
+		}
+	});
+
 	const ref = useRef();
 
 	const {
-		Jitsi_Open_New_Window: openNewWindow,
+		// Jitsi_Open_New_Window: openNewWindow,
 		Jitsi_Domain: domain,
 		Jitsi_SSL: ssl,
 		Jitsi_Chrome_Extension: desktopSharingChromeExtId,
@@ -59,6 +69,7 @@ const CallJitsWithData = ({ rid }) => {
 		Jitsi_URL_Room_Suffix: sufix,
 		Jitsi_Enabled_TokenAuth: isEnabledTokenAuth,
 	} = Object.fromEntries(useSettings(querySettings).map(({ _id, value }) => [_id, value]));
+	const openNewWindow = false;
 
 	useEffect(() => {
 		let ignore = false;
@@ -101,6 +112,8 @@ const CallJitsWithData = ({ rid }) => {
 				accessToken,
 				desktopSharingChromeExtId,
 				name: user.name || user.username,
+				handleClose,
+				handleStart,
 			},
 			HEARTBEAT,
 		);
@@ -108,6 +121,8 @@ const CallJitsWithData = ({ rid }) => {
 		accessToken,
 		desktopSharingChromeExtId,
 		domain,
+		handleClose,
+		handleStart,
 		isEnabledTokenAuth,
 		openNewWindow,
 		prefix,
@@ -120,6 +135,7 @@ const CallJitsWithData = ({ rid }) => {
 
 	const testAndHandleTimeout = useMutableCallback(() => {
 		if (new Date() - new Date(room.jitsiTimeout) > TIMEOUT) {
+			handleClose();
 			return jitsi.dispose();
 		}
 
@@ -129,6 +145,18 @@ const CallJitsWithData = ({ rid }) => {
 	});
 
 	useEffect(() => {
+		const currentTime = new Date().getTime();
+		const jitsiTimeout = new Date((room && room.jitsiTimeout) || currentTime).getTime();
+		const live = jitsiTimeout > currentTime || null;
+
+		console.log('<<< Video - room type', room.t, accepted);
+
+		if (room.t === 'd' || live) setAccepted(true);
+
+		console.log('<<< Video - room type', room.t, accepted);
+
+		console.log('<<< Live', live);
+
 		if (!accepted || !jitsi) {
 			return;
 		}
@@ -138,11 +166,82 @@ const CallJitsWithData = ({ rid }) => {
 
 		jitsi.on('HEARTBEAT', testAndHandleTimeout);
 
-		return () => {
-			jitsi.off('HEARTBEAT', testAndHandleTimeout);
+		const answering = Session.get('JitsiAnswering');
+		const ringing = Session.get('JitsiRinging');
+		console.log('<<< ANSWERING', answering);
+		console.log('<<< RINGING', ringing);
+		console.log('<<< LIVE', live);
+
+		const startingCall = !answering && !ringing && !live;
+
+		console.log('<<< STARING', startingCall);
+
+		if (startingCall) {
+			Meteor.call('jitsi:comm_start_call', rid, (error) => {
+				if (error) {
+					console.log(error);
+				}
+			});
+		}
+		if (room.t === 'd') {
+			if (startingCall) {
+				const user = Meteor.user();
+				Notifications.notifyUsersOfRoom(
+					rid,
+					'jitsi_ring_start',
+					rid,
+					user._id,
+					user.username,
+					user.avatarUrl,
+				);
+				// CustomSounds.play('ring', { volume: 0.5, loop: true });
+				Session.set('JitsiRinging', true);
+			} else {
+				Notifications.notifyUsersOfRoom(rid, 'jitsi_ring_stop', rid);
+				CustomSounds.play('ring', { volume: 0, loop: false });
+				Session.set('JitsiAnswering', false);
+				Session.set('JitsiRinging', false);
+			}
+		}
+
+		const handleCallCancel = () => {
+			console.log('<<< CANCEL');
+			handleClose();
 			jitsi.dispose();
 		};
-	}, [accepted, jitsi, rid, testAndHandleTimeout, updateTimeout]);
+
+		Notifications.onUser('jitsi_cancel_call', handleCallCancel);
+
+		if (answering) {
+			Session.set('JitsiAnswering', false);
+		}
+
+		$('aside.rcx-sidebar').hide();
+		$('header .rcx-button-group').hide();
+		$('aside.rcx-vertical-bar').attr('style', 'width: 100% !important');
+		$('.messages-container-wrapper').hide();
+
+		return () => {
+			$('aside.rcx-sidebar').show();
+			$('header .rcx-button-group').show();
+			$('.messages-container-wrapper').show();
+			Notifications.unUser('jitsi_cancel_call', handleCallCancel);
+			jitsi.off('HEARTBEAT', testAndHandleTimeout);
+			jitsi.dispose();
+			console.log('<<<< **EXIT CALL**');
+
+			Notifications.notifyUsersOfRoom(rid, 'jitsi_ring_stop', rid);
+			CustomSounds.play('ring', { volume: 0, loop: false });
+			Session.set('JitsiRinging', false);
+
+			if (Meteor.status().connected) {
+				Meteor.call('jitsi:comm_close_call', rid, startingCall);
+				if (startingCall) {
+					Notifications.notifyUsersOfRoom(rid, 'jitsi_cancel_call', rid);
+				}
+			}
+		};
+	}, [accepted, handleClose, jitsi, rid, room, testAndHandleTimeout, updateTimeout]);
 
 	const handleYes = useMutableCallback(() => {
 		setAccepted(true);

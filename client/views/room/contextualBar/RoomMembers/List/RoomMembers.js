@@ -28,7 +28,7 @@ const RoomMembers = ({
 	onClickClose,
 	onClickView,
 	onClickAdd,
-	onClickInvite,
+	// onClickInvite,
 	total,
 	error,
 	loadMoreItems,
