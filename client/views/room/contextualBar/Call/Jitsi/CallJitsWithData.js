@@ -214,15 +214,15 @@ const CallJitsWithData = ({ rid }) => {
 			Session.set('JitsiAnswering', false);
 		}
 
-		$('aside.rcx-sidebar').hide();
-		$('header .rcx-button-group').hide();
-		$('aside.rcx-vertical-bar').attr('style', 'width: 100% !important');
-		$('.messages-container-wrapper').hide();
+		// $('aside.rcx-sidebar').hide();
+		// $('header .rcx-button-group').hide();
+		// $('aside.rcx-vertical-bar').attr('style', 'width: 100% !important');
+		// $('.messages-container-wrapper').hide();
 
 		return () => {
-			$('aside.rcx-sidebar').show();
-			$('header .rcx-button-group').show();
-			$('.messages-container-wrapper').show();
+			// $('aside.rcx-sidebar').show();
+			// $('header .rcx-button-group').show();
+			// $('.messages-container-wrapper').show();
 			Notifications.unUser('jitsi_cancel_call', handleCallCancel);
 			jitsi.off('HEARTBEAT', testAndHandleTimeout);
 			jitsi.dispose();
