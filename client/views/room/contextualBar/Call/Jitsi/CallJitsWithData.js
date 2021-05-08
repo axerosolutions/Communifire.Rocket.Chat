@@ -121,8 +121,6 @@ const CallJitsWithData = ({ rid }) => {
 		accessToken,
 		desktopSharingChromeExtId,
 		domain,
-		handleClose,
-		handleStart,
 		isEnabledTokenAuth,
 		openNewWindow,
 		prefix,
@@ -241,7 +239,7 @@ const CallJitsWithData = ({ rid }) => {
 				}
 			}
 		};
-	}, [accepted, handleClose, jitsi, rid, room, testAndHandleTimeout, updateTimeout]);
+	}, [accepted, jitsi, rid, testAndHandleTimeout, updateTimeout]);
 
 	const handleYes = useMutableCallback(() => {
 		setAccepted(true);
