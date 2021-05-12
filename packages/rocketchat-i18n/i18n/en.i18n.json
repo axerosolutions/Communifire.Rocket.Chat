@@ -4487,6 +4487,11 @@
   "Your_TOTP_has_been_reset": "Your Two Factor TOTP has been reset.",
   "Your_workspace_is_ready": "Your workspace is ready to use 🎉",
   "View_Community": "View Community",
+  "CF_call_ended": "This call has ended",
+  "CF_call_closed": "This call has been closed",
+  "CF_call_missed": "Missed call",
+  "CF_calling": "Calling...",
+  "CF_join_conference": "Join conference",
   "Community_Url": "Community URL",
   "Community_Url_Description": "Example: https://YourCommunifireSiteDomain.com"
 }

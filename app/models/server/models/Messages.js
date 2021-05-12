@@ -785,12 +785,25 @@ export class Messages extends Base {
 		return record;
 	}
 
-	// UPDATE
-	updateJitsiMessages(roomId, message) {
+	jitsiStartMessages(roomId, message) {
 		const query = {
-			t: 'jitsi_comm_call_started',
+			t: { $in: ['jitsi_comm_call_ring'] },
 			rid: roomId,
-			// 'u._id': user._id,
+		};
+
+		const update = {
+			$set: {
+				t: 'jitsi_comm_call_started',
+				msg: message,
+			},
+		};
+		return this.update(query, update, { multi: true	});
+	}
+
+	jitsiCloseMessages(roomId, message) {
+		const query = {
+			t: { $in: ['jitsi_comm_call_ring', 'jitsi_comm_call_started'] },
+			rid: roomId,
 		};
 
 		const update = {
@@ -798,10 +811,39 @@ export class Messages extends Base {
 				t: 'jitsi_comm_call_ended',
 				msg: message,
 				actionLinks: [],
-				// attachments: [{ text: message }],
 			},
 		};
 		return this.update(query, update, { multi: true	});
+	}
+
+	jitsiCloseMessagesByType(roomId, messageMissed, messageClosed) {
+		const queryMissed = {
+			t: 'jitsi_comm_call_ring',
+			rid: roomId,
+		};
+
+		const updateMissed = {
+			$set: {
+				t: 'jitsi_comm_call_ended',
+				msg: messageMissed,
+				actionLinks: [],
+			},
+		};
+		this.update(queryMissed, updateMissed, { multi: true });
+
+		const queryStarted = {
+			t: 'jitsi_comm_call_started',
+			rid: roomId,
+		};
+
+		const updateStarted = {
+			$set: {
+				t: 'jitsi_comm_call_ended',
+				msg: messageClosed,
+				actionLinks: [],
+			},
+		};
+		this.update(queryStarted, updateStarted, { multi: true });
 	}
 
 	createNavigationHistoryWithRoomIdMessageAndUser(roomId, message, user, extraData) {

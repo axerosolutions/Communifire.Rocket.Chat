@@ -208,6 +208,14 @@ FlowRouter.route('/mailer/unsubscribe/:_id/:createdAt', {
 	},
 });
 
+FlowRouter.route('/jitsi/:roomid', {
+	name: 'cf-jitsi', // <<<
+	action: () => {
+		const jitsiComponent = lazy(() => import('../views/cfJitsi/Jitsi'));
+		appLayout.render({ component: jitsiComponent });
+	},
+});
+
 FlowRouter.notFound = {
 	action: (): void => {
 		const NotFoundPage = lazy(() => import('../views/notFound/NotFoundPage'));

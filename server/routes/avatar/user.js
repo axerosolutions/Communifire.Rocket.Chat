@@ -21,6 +21,14 @@ export const userAvatar = Meteor.bindEnvironment(function(req, res) {
 		return;
 	}
 
+	// <<< CORS if origin is the configured jitsi server
+	const jitsiDomain = `https://${ settings.get('Jitsi_Domain') }`;
+	// eslint-disable-next-line dot-notation
+	const reqOrigin = req.headers['origin'];
+	if (reqOrigin && reqOrigin === jitsiDomain) {
+		res.setHeader('Access-Control-Allow-Origin', reqOrigin);
+	}
+
 	const avatarSize = req.query.size && parseInt(req.query.size);
 
 	setCacheAndDispositionHeaders(req, res);

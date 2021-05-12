@@ -10,7 +10,7 @@ const BaseAvatar: FC<BaseAvatarProps> = ({ size, ...props }) => {
 		return <Skeleton variant='rect' {...props} />;
 	}
 
-	return <Avatar onError={setError} size={size} {...props} />;
+	return <Avatar onError={setError} size={size} {...props} rounded={true} />;
 };
 
 export default BaseAvatar;

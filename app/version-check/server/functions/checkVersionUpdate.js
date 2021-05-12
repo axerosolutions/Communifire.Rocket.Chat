@@ -20,13 +20,15 @@ export default () => {
 		security: false,
 	};
 
+	// JLM: Compare with main version number
+	const currentVersion = Info.version.split('-')[0];
 	const lastCheckedVersion = settings.get('Update_LatestAvailableVersion');
 	versions.forEach((version) => {
 		if (semver.lte(version.version, lastCheckedVersion)) {
 			return;
 		}
 
-		if (semver.lte(version.version, Info.version)) {
+		if (semver.lte(version.version, currentVersion)) {
 			return;
 		}
 

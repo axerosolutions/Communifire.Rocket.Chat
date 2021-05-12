@@ -1,4 +1,5 @@
 import { Accounts } from 'meteor/accounts-base';
+import { FlowRouter } from 'meteor/kadira:flow-router';
 import { UserPresence } from 'meteor/konecty:user-presence';
 import { Meteor } from 'meteor/meteor';
 import { TimeSync } from 'meteor/mizzao:timesync';
@@ -74,6 +75,13 @@ Meteor.startup(() => {
 		}
 
 		if (!hasPermission('manage-cloud')) {
+			return;
+		}
+
+		// Avoid cloud configuration warning on jitsi window
+		// <<<
+		const routeName = FlowRouter.getRouteName();
+		if (routeName === 'cf-jitsi') {
 			return;
 		}
 

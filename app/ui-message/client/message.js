@@ -196,7 +196,7 @@ Template.message.helpers({
 	},
 	jitsiType() {
 		const { msg } = this;
-		if (msg.t.startsWith('jitsi')) {
+		if (msg.t?.startsWith('jitsi')) {
 			return 'jitsi_comm_call_started';
 		}
 	},
