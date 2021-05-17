@@ -44,6 +44,7 @@ API.v1.addRoute('users.create', { authRequired: true }, {
 			setRandomPassword: Match.Maybe(Boolean),
 			sendWelcomeEmail: Match.Maybe(Boolean),
 			verified: Match.Maybe(Boolean),
+			communifireUser: Match.Maybe(Boolean),
 			customFields: Match.Maybe(Object),
 		});
 
@@ -62,6 +63,14 @@ API.v1.addRoute('users.create', { authRequired: true }, {
 			saveCustomFieldsWithoutValidation(newUserId, this.bodyParams.customFields);
 		}
 
+		if (this.bodyParams.communifireUser) {
+			const update = {
+				$unset: {
+					'services.password': '',
+				},
+			};
+			Users.update({ _id: newUserId }, update);
+		}
 
 		if (typeof this.bodyParams.active !== 'undefined') {
 			Meteor.runAsUser(this.userId, () => {
@@ -493,6 +502,7 @@ API.v1.addRoute('users.update', { authRequired: true, twoFactorRequired: true },
 				requirePasswordChange: Match.Maybe(Boolean),
 				sendWelcomeEmail: Match.Maybe(Boolean),
 				verified: Match.Maybe(Boolean),
+				communifireUser: Match.Maybe(Boolean),
 				customFields: Match.Maybe(Object),
 			}),
 		});
