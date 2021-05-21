@@ -1,6 +1,8 @@
 // eslint-disable-next-line import/order
 import { Emitter } from '@rocket.chat/emitter';
 
+// import JitsiMeetExternalAPI from './lib/modules/API/external/external_api';
+
 export class JitsiBridge extends Emitter {
 	constructor(
 		{
@@ -44,16 +46,60 @@ export class JitsiBridge extends Emitter {
 			handleStart,
 		} = this;
 
+		const isElectron = !!window.JitsiMeetElectron;
+
+		const buttons = [
+			'microphone',
+			'camera',
+			'closedcaptions',
+			'desktop',
+			'embedmeeting',
+			'fullscreen',
+			'fodeviceselection',
+			// 'hangup',
+			'profile',
+			'chat',
+			// 'recording',
+			'livestreaming',
+			'etherpad',
+			'sharedvideo',
+			'shareaudio',
+			'settings',
+			'raisehand',
+			'videoquality',
+			'filmstrip',
+			// 'invite',
+			// 'feedback',
+			'stats',
+			'shortcuts',
+			'tileview',
+			// 'select-background',
+			// 'download',
+			// 'help',
+			'mute-everyone',
+			'mute-video-everyone',
+			'security',
+		];
+
+		// if (!isElectron) {
+		// 	buttons.push('hangup');
+		// }
+
 		// https://github.com/jitsi/jitsi-meet/blob/master/config.js
 		const configOverwrite = {
 			desktopSharingChromeExtId,
-			// startAudioOnly: true,
+			// startAudioOnly: isElectron,
 			// prejoinPageEnabled: true,
+			enableWelcomePage: false,
+			hideLobbyButton: true,
+			enableClosePage: true,
+			toolbarButtons: buttons,
 		};
 
 		// See https://github.com/jitsi/jitsi-meet/blob/master/interface_config.js
 		const interfaceConfigOverwrite = {
 			HIDE_INVITE_MORE_HEADER: true,
+			TOOLBAR_BUTTONS: buttons,
 		};
 
 		// const width = 'auto';
@@ -76,8 +122,19 @@ export class JitsiBridge extends Emitter {
 
 		const api = new window.JitsiMeetExternalAPI(domain, options);
 
+		window.jitsi = api;
+
 		if (api.getIFrame()) {
 			api.getIFrame().style.height = '100vh';
+			let init = false;
+			api.getIFrame().onload = () => {
+				if (init) {
+					handleClose();
+				} else if (isElectron) {
+					handleStart(undefined);
+				}
+				init = true;
+			};
 		}
 
 		setTimeout(() => {
