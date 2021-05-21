@@ -48,7 +48,7 @@ export class JitsiBridge extends Emitter {
 
 		const isElectron = !!window.JitsiMeetElectron;
 
-		const buttons = [
+		let buttons = [
 			'microphone',
 			'camera',
 			'closedcaptions',
@@ -81,9 +81,9 @@ export class JitsiBridge extends Emitter {
 			'security',
 		];
 
-		// if (!isElectron) {
-		// 	buttons.push('hangup');
-		// }
+		if (!isElectron) {
+			buttons.push('hangup');
+		}
 
 		// https://github.com/jitsi/jitsi-meet/blob/master/config.js
 		const configOverwrite = {
