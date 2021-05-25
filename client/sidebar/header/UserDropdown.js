@@ -77,6 +77,11 @@ const UserDropdown = ({ user, onClose }) => {
 	});
 
 	const handleLogout = useMutableCallback(() => {
+		if (settings.get('Community_Url')) {
+			popover.close();
+			window.location = `${settings.get('Community_Url')}/logout`;
+			return;
+		}
 		Meteor.logout(() => {
 			callbacks.run('afterLogoutCleanUp', user);
 			Meteor.call('logoutCleanUp', user);
@@ -108,6 +113,8 @@ const UserDropdown = ({ user, onClose }) => {
 	});
 
 	const accountBoxItems = useReactiveValue(getItems);
+
+	const isElectron = !!window.RocketChatDesktop;
 
 	return (
 		<Box display='flex' flexDirection='column' maxWidth='244px'>
@@ -201,7 +208,7 @@ const UserDropdown = ({ user, onClose }) => {
 			<Divider mi='neg-x16' mb='x16' />
 			<div style={style}>
 				<Option icon='user' label={t('View_Community')} onClick={handleMyAccount} />
-				<Option icon='sign-out' label={t('Logout')} onClick={handleLogout} />
+				{!isElectron && <Option icon='sign-out' label={t('Logout')} onClick={handleLogout} />}
 			</div>
 		</Box>
 	);
