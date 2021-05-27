@@ -21,11 +21,12 @@ try {
 
 const files = [
 	'./package.json',
-	'./.circleci/snap.sh',
-	'./.circleci/update-releases.sh',
+	// './.circleci/snap.sh',
+	// './.circleci/update-releases.sh',
 	'./.docker/Dockerfile',
 	'./.docker/Dockerfile.rhel',
-	'./packages/rocketchat-utils/rocketchat.info',
+	// './packages/rocketchat-utils/rocketchat.info',
+	'./app/utils/rocketchat.info',
 ];
 const readFile = (file) => new Promise((resolve, reject) => {
 	fs.readFile(file, 'utf8', (error, result) => {
@@ -48,6 +49,9 @@ let selectedVersion;
 
 git.status()
 	.then((status) => {
+		if (status.current === 'axero') {
+			return semver.inc(pkgJson.version, 'prerelease');
+		}
 		if (status.current === 'release-candidate') {
 			return semver.inc(pkgJson.version, 'prerelease', 'rc');
 		}
