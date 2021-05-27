@@ -48,7 +48,7 @@ export class JitsiBridge extends Emitter {
 
 		const isElectron = !!window.JitsiMeetElectron;
 
-		let buttons = [
+		const buttons = [
 			'microphone',
 			'camera',
 			'closedcaptions',
