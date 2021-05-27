@@ -890,7 +890,7 @@ settings.addGroup('General', function() {
 		public: true,
 	});
 
-	this.add('DeepLink_Url', 'https://go.rocket.chat', {
+	this.add('DeepLink_Url', 'https://go.communifire.com', {
 		type: 'string',
 		public: true,
 	});
