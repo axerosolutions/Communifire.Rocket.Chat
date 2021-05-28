@@ -6,22 +6,12 @@ Meteor.startup(() => {
 	settings.addGroup('Discussion', function() {
 		// the channel for which discussions are created if none is explicitly chosen
 
-		this.add('Discussion_enabled', true, {
+		this.add('Discussion_enabled', false, {
 			group: 'Discussion',
 			i18nLabel: 'Enable',
 			type: 'boolean',
 			public: true,
 		});
-	});
-
-	settings.updateById('Discussion_enabled', false);
-
-	settings.add('Accounts_Default_User_Preferences_sidebarShowDiscussion', true, {
-		group: 'Accounts',
-		section: 'Accounts_Default_User_Preferences',
-		type: 'boolean',
-		public: true,
-		i18nLabel: 'Group_discussions',
 	});
 
 	const globalQuery = {
