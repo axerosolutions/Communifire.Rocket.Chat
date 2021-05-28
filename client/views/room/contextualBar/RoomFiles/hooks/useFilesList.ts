@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { getConfig } from '../../../../../../app/ui-utils/client/config';
 import { useEndpoint } from '../../../../../contexts/ServerContext';
@@ -13,23 +13,23 @@ export const useFilesList = (
 ): {
 	filesList: FilesList;
 	initialItemCount: number;
+	reload: () => void;
 	loadMoreItems: (start: number, end: number) => void;
 } => {
 	const [filesList, setFileList] = useState(() => new FilesList(options));
 	const reload = useCallback(() => setFileList(new FilesList(options)), [options]);
-
 	const room = useUserRoom(options.rid);
 	const uid = useUserId();
-
-	// useEffect(() => {
-	// 	if (filesList.options !== options) {
-	// 		filesList.updateFilters(options);
-	// 	}
-	// }, [filesList, options]);
 
 	useComponentDidUpdate(() => {
 		options && reload();
 	}, [options, reload]);
+
+	useEffect(() => {
+		if (filesList.options !== options) {
+			filesList.updateFilters(options);
+		}
+	}, [filesList, options]);
 
 	const roomTypes = {
 		c: 'channels.files',
@@ -76,6 +76,7 @@ export const useFilesList = (
 	useStreamUpdatesForMessageList(filesList, uid, options.rid);
 
 	return {
+		reload,
 		filesList,
 		loadMoreItems,
 		initialItemCount,

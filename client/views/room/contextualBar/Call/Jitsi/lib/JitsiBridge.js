@@ -32,6 +32,7 @@ export class JitsiBridge extends Emitter {
 		this.handleStart = handleStart;
 		this.heartbeat = heartbeat;
 		this.rid = rid;
+		this.window = undefined;
 	}
 
 	start(domTarget) {
@@ -89,7 +90,7 @@ export class JitsiBridge extends Emitter {
 			}, 1000);
 
 			this.once('dispose', () => clearTimeout(timer));
-
+			this.window = newWindow;
 			return newWindow.focus();
 		}
 
