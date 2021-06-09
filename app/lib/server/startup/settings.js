@@ -905,7 +905,7 @@ settings.addGroup('General', function() {
 		public: true,
 	});
 
-	this.add('DeepLink_Url', 'https://go.communifire.com', {
+	this.add('DeepLink_Url', 'https://go.cfire.in', {
 		type: 'string',
 		public: true,
 	});

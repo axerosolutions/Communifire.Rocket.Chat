@@ -21,7 +21,7 @@ mock('../../settings', {
 		get(setting) {
 			switch (setting) {
 				case 'DeepLink_Url':
-					return 'https://go.communifire.com';
+					return 'https://go.cfire.in';
 				case 'Markdown_SupportSchemesForLink':
 					return 'http,https';
 				case 'Markdown_Parser':
