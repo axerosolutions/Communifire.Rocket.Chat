@@ -415,6 +415,13 @@ export class NotificationsModule {
 		return this.streamUser.emit(`${ userId }/${ eventName }`, ...args);
 	}
 
+	notifyUsersOfRoom(room: string, eventName: string, ...args: any[]): void {
+		if (this.debug === true) {
+			console.log('notifyUsersOfRoom', [room, eventName, ...args]);
+		}
+		return this.streamRoomUsers.emit(`${ room }/${ eventName }`, ...args);
+	}
+
 	notifyAllInThisInstance(eventName: string, ...args: any[]): void {
 		if (this.debug === true) {
 			console.log('notifyAll', [eventName, ...args]);

@@ -127,7 +127,7 @@ Meteor.methods({
 			// }
 			Messages.jitsiCloseMessagesByType(rid, TAPi18n.__('CF_call_missed'), TAPi18n.__('CF_call_ended'), { ended_at: new Date().getTime() });
 
-			// Notifications.notifyUsers(rid, 'jitsi_cancel_call', rid);
+			// Notifications.notifyUsers(rid, 'webrtc', 'cf_jitsi_cancel_call', rid);
 		}
 		// else {
 		// 	Meteor.setTimeout(() => {

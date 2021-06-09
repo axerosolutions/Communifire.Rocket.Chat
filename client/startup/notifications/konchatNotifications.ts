@@ -71,8 +71,9 @@ Meteor.startup(() => {
 		console.log(`<<< STARTUP route ${routeName}`);
 		if (routeName && routeName !== 'cf-jitsi') {
 			Notifications.onUser(
-				'cf_jitsi_ring_start',
-				(rid: any, fromUser: any, username: string, avatarUrl: string) => {
+				'webrtc',
+				(action: string, rid: any, fromUser: any, username: string, avatarUrl: string) => {
+					if (action !== 'cf_jitsi_ring_start') return;
 					console.log(`<<< RING on route ${routeName}`);
 					console.log(`<<< NOTIF : ring_start in ${rid} from ${fromUser}`);
 					Session.set('JitsiRinging', rid);
@@ -93,8 +94,8 @@ Meteor.startup(() => {
 									console.log(error);
 								}
 							});
-							Notifications.notifyUsersOfRoom(rid, 'jitsi_ring_stop', rid);
-							Notifications.notifyUser(Meteor.userId(), 'jitsi_ring_stop', rid); // Notification to self
+							Notifications.notifyUsersOfRoom(rid, 'webrtc', 'cf_jitsi_ring_stop', rid);
+							Notifications.notifyUser(Meteor.userId(), 'webrtc', 'cf_jitsi_ring_stop', rid); // Notification to self
 							CustomSounds.play('ring', { volume: 0, loop: false });
 							Session.set('JitsiAnswering', rid);
 							Session.set('JitsiRinging', false);
@@ -177,15 +178,15 @@ Meteor.startup(() => {
 
 								if (!accepted) {
 									console.log('<<<< NOT ACCEPTED');
-									Notifications.notifyUsersOfRoom(rid, 'jitsi_ring_stop', rid);
-									Notifications.notifyUser(Meteor.userId(), 'jitsi_ring_stop', rid); // Notification to self
+									Notifications.notifyUsersOfRoom(rid, 'webrtc', 'cf_jitsi_ring_stop', rid);
+									Notifications.notifyUser(Meteor.userId(), 'webrtc', 'cf_jitsi_ring_stop', rid); // Notification to self
 									CustomSounds.play('ring', { volume: 0, loop: false });
 									Session.set('JitsiAnswering', false);
 									Session.set('JitsiRinging', false);
 
 									// TODO: Close call?
 									if (Meteor.status().connected) {
-										Notifications.notifyUsersOfRoom(rid, 'jitsi_cancel_call', rid);
+										Notifications.notifyUsersOfRoom(rid, 'webrtc', 'cf_jitsi_cancel_call', rid);
 										Meteor.call('jitsi:comm_close_call', rid, false);
 									}
 								}
@@ -197,7 +198,8 @@ Meteor.startup(() => {
 			);
 		}
 
-		Notifications.onUser('jitsi_ring_stop', (rid: string) => {
+		Notifications.onUser('webrtc', (action: string, rid: string) => {
+			if (action !== 'cf_jitsi_ring_stop') return;
 			console.log(`<<< NOTIF : ring_stop (${rid})`);
 			const jitsiRinging = Session.get('JitsiRinging');
 			if (jitsiRinging && jitsiRinging === rid) {

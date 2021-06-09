@@ -100,7 +100,7 @@ const Jitsi: FC = () => {
 			: encodeURIComponent(
 					room.t === 'd'
 						? ((room as unknown) as IDirectMessageRoom).usernames.join(' x ')
-						: room.name,
+						: room.name ?? '',
 			  );
 
 	const jitsi = useMemo(() => {
@@ -148,7 +148,8 @@ const Jitsi: FC = () => {
 		}
 	});
 
-	const handleCallCancel = (roomid: string): void => {
+	const handleCallCancel = (action: string, roomid: string): void => {
+		if (action !== 'cf_jitsi_cancel_call') return;
 		console.log(`<<< CANCEL ${roomid}. Current room is ${rid}`);
 		if (roomid == null || roomid === rid) {
 			handleClose();
@@ -182,7 +183,7 @@ const Jitsi: FC = () => {
 		jitsi.on('HEARTBEAT', testAndHandleTimeout);
 
 		const answering = Session.get('JitsiAnswering');
-		const ringing = !!Session.get('JitsiRinging');
+		const ringing = !!Session.get('JitsiRinging') && live;
 		console.log('<<< ANSWERING', answering);
 		console.log('<<< RINGING', ringing);
 		console.log('<<< LIVE', live);
@@ -205,6 +206,7 @@ const Jitsi: FC = () => {
 				// const user = Meteor.user();
 				Notifications.notifyUsersOfRoom(
 					rid,
+					'webrtc',
 					'cf_jitsi_ring_start',
 					rid,
 					user._id,
@@ -214,7 +216,7 @@ const Jitsi: FC = () => {
 				// CustomSounds.play('ring', { volume: 0.5, loop: true });
 				Session.set('JitsiRinging', rid);
 			} else {
-				Notifications.notifyUsersOfRoom(rid, 'jitsi_ring_stop', rid);
+				Notifications.notifyUsersOfRoom(rid, 'webrtc', 'cf_jitsi_ring_stop', rid);
 				CustomSounds.play('ring', { volume: 0, loop: false });
 				Session.set('JitsiAnswering', false);
 				Session.set('JitsiRinging', false);
@@ -224,7 +226,7 @@ const Jitsi: FC = () => {
 			}
 		}
 
-		Notifications.onUser('jitsi_cancel_call', handleCallCancel);
+		Notifications.onUser('webrtc', handleCallCancel);
 
 		if (answering) {
 			Session.set('JitsiAnswering', false);
@@ -237,12 +239,12 @@ const Jitsi: FC = () => {
 		if (!jitsi) {
 			return;
 		}
-		Notifications.unUser('jitsi_cancel_call', handleCallCancel);
+		Notifications.unUser('webrtc', handleCallCancel);
 		jitsi.off('HEARTBEAT', testAndHandleTimeout);
 		jitsi.dispose();
 		console.log('<<<< **EXIT CALL**');
 
-		Notifications.notifyUsersOfRoom(rid, 'jitsi_ring_stop', rid);
+		Notifications.notifyUsersOfRoom(rid, 'webrtc', 'cf_jitsi_ring_stop', rid);
 		CustomSounds.play('ring', { volume: 0, loop: false });
 		Session.set('JitsiRinging', false);
 
@@ -250,7 +252,7 @@ const Jitsi: FC = () => {
 		if (Meteor.status().connected) {
 			Meteor.call('jitsi:comm_close_call', rid, startedCall);
 			if (startedCall) {
-				Notifications.notifyUsersOfRoom(rid, 'jitsi_cancel_call', rid);
+				Notifications.notifyUsersOfRoom(rid, 'webrtc', 'cf_jitsi_cancel_call', rid);
 			}
 		}
 
