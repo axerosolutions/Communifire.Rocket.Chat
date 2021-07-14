@@ -4,10 +4,10 @@ settings.addGroup('Accounts', function() {
 	this.section('Two Factor Authentication', function() {
 		const enable2FA = {
 			_id: 'Accounts_TwoFactorAuthentication_Enabled',
-			value: true,
+			value: false,
 		};
 
-		this.add('Accounts_TwoFactorAuthentication_Enabled', true, {
+		this.add('Accounts_TwoFactorAuthentication_Enabled', false, {
 			type: 'boolean',
 			public: true,
 		});
@@ -16,18 +16,18 @@ settings.addGroup('Accounts', function() {
 			enableQuery: enable2FA,
 		});
 
-		this.add('Accounts_TwoFactorAuthentication_By_TOTP_Enabled', true, {
+		this.add('Accounts_TwoFactorAuthentication_By_TOTP_Enabled', false, {
 			type: 'boolean',
 			enableQuery: enable2FA,
 			public: true,
 		});
 
-		this.add('Accounts_TwoFactorAuthentication_By_Email_Enabled', true, {
+		this.add('Accounts_TwoFactorAuthentication_By_Email_Enabled', false, {
 			type: 'boolean',
 			enableQuery: enable2FA,
 			public: true,
 		});
-		this.add('Accounts_TwoFactorAuthentication_By_Email_Auto_Opt_In', true, {
+		this.add('Accounts_TwoFactorAuthentication_By_Email_Auto_Opt_In', false, {
 			type: 'boolean',
 			enableQuery: [
 				enable2FA,
